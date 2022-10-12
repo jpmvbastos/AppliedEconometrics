@@ -6,7 +6,7 @@ This repository contains codes for projects and homeworks for Applied Econometri
 
 
 ## [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework1)
-[Homework1.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) apply Maximum Likelihood techniques to different data generating processes, also relying on Stata for some estimations. The file [Homework1.do](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) has the replication code for Stata, which includes:
+[Homework1.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) applies Maximum Likelihood techniques to different data generating processes, also relying on Stata for some estimations. The file [Homework1.do](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) has the replication code for Stata, which includes:
 - Estimation of Box-Cox demand using ```boxcox```, and using the user-inputed expression method for Maximum Likelihood Estimation (```mlexp```). 
 - Finite Mixture Models: ```fmm```.
 
