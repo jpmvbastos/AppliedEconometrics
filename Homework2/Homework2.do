@@ -1,5 +1,6 @@
 use "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/lasvegas.xlsx", clear
 
+gen id =_n
 * 1 (a)
 
 reg DELINQUENT LVR REF INSUR RATE AMOUNT CREDIT TERM ARM, vce(robust)
@@ -12,10 +13,21 @@ predict PROBIT_DELINQ
 
 
 * 1(c)
-histogram CREDIT
+list LP_DELINQ PROBIT_DELINQ if id==500 | id==1000
 
 
 * 1(d)
+histogram CREDIT
+
+set obs `=_N+1'
+replace X = 1 if _n == _N
+
+reg DELINQUENT LVR REF INSUR RATE AMOUNT CREDIT TERM ARM, vce(robust)
+margins, at (CREDIT =(500(100)700)) at AMOUNT=2.5 at LVR=80 at RATE=8 at TERM=30 at REF=1 at ARM=1
+
+
+probit DELINQUENT LVR REF INSUR RATE AMOUNT CREDIT TERM ARM
+
 
 
 
