@@ -94,6 +94,47 @@ import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/
 * 3(a)
 clogit CHOICE PRICE FEATURE DISPLAY, group(ID) 
 
+* 3(b)
+clogit CHOICE PRICE FEATURE DISPLAY, group(ID) or 
+
+
+* 3(g)
+
+gen COKE = 0
+replace COKE=1 if 
+
+nlogitgen type = CHOICE (coke: , noncoke: sevenup|pepsi)
+
+nlogittree COKE type, choice(CHOICE)
+
+nlogit d p q || type:, base(COKE) || fishmode: income, case(id)
+
+*** QUESTION 4 ***
+import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/nels_small.xlsx", firstrow clear
+
+* 4 (a)
+oprobit PSECHOICE GRADES
+estimates store rest
+
+margins, at(GRADES=6.64)
+margins, at(GRADES=4.95)
+
+* 4(b)
+oprobit PSECHOICE GRADES FAMINC FAMSIZ BLACK PARCOLL
+estimates store unrest
+
+* 4(c)
+lrtest rest unrest
+
+* 4(d)
+margins, at (BLACK=1 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
+
+
+* 4(e)
+margins, at (BLACK=0 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
+
+
+
 *** QUESTION 5 *** 
 use "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/Cardholder.xlsx", clear
 
@@ -103,7 +144,6 @@ gen log_income = ln(income)
 
 * 1(a)
 reg log_spend log_income age adepcnt ownrent
-
 
 * 2(a)
 reg log_spend log_income age adepcnt ownrent if cardholder==1
