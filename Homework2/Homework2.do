@@ -73,6 +73,9 @@ tab lphat500_correct
 *** QUESTION 2 ***
 import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/nels_small.xlsx", firstrow clear
 
+* 1 = highschool
+* 2 = two year college
+* 3 = college 
 
 * 2 (a)
 mlogit PSECHOICE GRADES FAMINC FEMALE BLACK, baseoutcome(1)
@@ -81,7 +84,7 @@ mlogit PSECHOICE GRADES FAMINC FEMALE BLACK, baseoutcome(1)
 margins, at(GRADES=6.53039 FAMINC=51.3935 FEMALE=0 BLACK=0)
 
 * 2(c)
-
+p / (1-p)
 
 * 2(d)
 margins, at(GRADES=6.53039 FAMINC=51.3935 FEMALE=0 BLACK=0)
@@ -153,7 +156,7 @@ poisson minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
 margins, dydx atmeans
 
 * 3(b)
-nbreg inordrg log_income age adepcnt ownrent exp_inc if cardholder==1
+nbreg minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
 margins, dydx atmeans
 
 
