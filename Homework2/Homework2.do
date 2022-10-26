@@ -13,7 +13,8 @@ predict PROBIT_DELINQ
 
 * 1(c)
 gen id =_n
-list LP_DELINQ PROBIT_DELINQ if id==500 | id==1000
+
+list DELINQUENT LVR REF INSUR RATE AMOUNT CREDIT TERM ARM LP_DELINQ PROBIT_DELINQ if id==500 | id==1000
 
 
 * 1(d)
@@ -68,37 +69,50 @@ probit DELINQUENT LVR REF INSUR RATE AMOUNT CREDIT TERM ARM
 predict phat500 if id>500
 gen phat500_correct =0
 replace phat500_correct=1 if (DELINQUENT==1 & phat500>= 0.5) |  (DELINQUENT==0 & phat500< 0.5)
-tab lphat500_correct
+tab phat500_correct
 
 *** QUESTION 2 ***
 import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/nels_small.xlsx", firstrow clear
 
 * 1 = highschool
-* 2 = two year college
-* 3 = college 
+* 2 = 2-year college
+* 3 = 4-year college 
 
 * 2 (a)
 mlogit PSECHOICE GRADES FAMINC FEMALE BLACK, baseoutcome(1)
 
 *2 (b)
-margins, at(GRADES=6.53039 FAMINC=51.3935 FEMALE=0 BLACK=0)
+margins, predict(outcome(3)) at((medians) GRADES FAMINC FEMALE=0 BLACK=0)
 
 * 2(c)
-p / (1-p)
+margins, predict(outcome(1)) at((medians) GRADES FAMINC FEMALE=0 BLACK=0)
+gen q2c= (.5239466/.1920783)
+disp q2c
+
 
 * 2(d)
-margins, at(GRADES=6.53039 FAMINC=51.3935 FEMALE=0 BLACK=0)
-margins, at(GRADES=4.905 FAMINC=51.3935 FEMALE=0 BLACK=0)
+margins, at((medians) FAMINC GRADES=6.53039 FEMALE=0 BLACK=0)
+margins, at((medians) FAMINC GRADES=4.905 FEMALE=0 BLACK=0)
+gen q2d = (.7320075-.5239466)
+disp q2d
 
+*2(e)
+mlogit PSECHOICE GRADES FAMINC FEMALE BLACK if PSECHOICE!=2, baseoutcome(1)
+margins, predict(outcome(3)) at((medians) GRADES FAMINC FEMALE=0 BLACK=0)
+gen q2e = (.7640356/(1-.7640356))
+disp q2e
 
 *** QUESTION 3 ***
 import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/cola.xlsx", firstrow clear
 
 * 3(a)
-clogit CHOICE PRICE FEATURE DISPLAY, group(ID) 
+sort ID, stable
+by ID: gen ALT = _n
+label define BRAND 1 "Pepsi" 2 "7Up" 3 "Coke"
+label values ALT BRAND
+asclogit CHOICE PRICE FEATURE DISPLAY, case(ID) alternatives(ALT) noconstant
 
 * 3(b)
-clogit CHOICE PRICE FEATURE DISPLAY, group(ID) or 
 
 
 * 3(g)
@@ -148,16 +162,36 @@ gen log_income = ln(income)
 * 1(a)
 reg log_spend log_income age adepcnt ownrent
 
+* 1(b)
+truncreg log_spend log_income age adepcnt ownrent, ll(1)
+
+* 1(c)
+heckman log_spend log_income age adepcnt ownrent, select(cardholder=log_income age adepcnt ownrent)
+
 * 2(a)
 reg log_spend log_income age adepcnt ownrent if cardholder==1
+
+*2(b)
+truncreg log_spend log_income age adepcnt ownrent if cardholder==1, ll(1)
 
 * 3(a)
 poisson minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
 margins, dydx atmeans
 
+summarize minordrg, detail
+
 * 3(b)
 nbreg minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
 margins, dydx atmeans
+
+* 3(c) 
+
+tpoisson minordrg log_income age adepcnt ownrent exp_inc
+margins, dydx atmeans
+
+tnbreg minordrg log_income age adepcnt ownrent exp_inc
+margins, dydx atmeans
+    
 
 
 
