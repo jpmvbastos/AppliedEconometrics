@@ -113,18 +113,29 @@ label values ALT BRAND
 asclogit CHOICE PRICE FEATURE DISPLAY, case(ID) alternatives(ALT) noconstant
 
 * 3(b)
+estat mfx, at (PRICE=1.25 DISPLAY=0 FEATURE=0)
 
+
+*3(c)
+estat mfx, at (PRICE=1.25 Coke:DISPLAY=1 Pepsi:DISPLAY=0 7Up:DISPLAY=0 FEATURE=0)
+
+*3(d)
+estat mfx, at (Coke:PRICE=1.30 Pepsi:PRICE=1.25 7Up:PRICE=1.25  Coke:DISPLAY=1 Pepsi:DISPLAY=0 7Up:DISPLAY=0 FEATURE=0)
+
+*3(e)
+asclogit CHOICE PRICE FEATURE DISPLAY, case(ID) alternatives(ALT) basealternative(Coke)
+estat mfx, at (PRICE=1.25 Coke:DISPLAY=1 Pepsi:DISPLAY=0 7Up:DISPLAY=0 FEATURE=0)
+
+*3(f)
+estat mfx, at (Coke:PRICE=1.30 Pepsi:PRICE=1.25 7Up:PRICE=1.25  Coke:DISPLAY=1 Pepsi:DISPLAY=0 7Up:DISPLAY=0 FEATURE=0)
 
 * 3(g)
 
-gen COKE = 0
-replace COKE=1 if 
+nlogitgen type = ALT(Cola: Coke|Pepsi, Other: 7Up)
+nlogittree ALT type, choice(CHOICE)
+nlogit CHOICE FEATURE ||type:,base(Other)||ALT:PRICE DISPLAY, case(ID) 
 
-nlogitgen type = CHOICE (coke: , noncoke: sevenup|pepsi)
-
-nlogittree COKE type, choice(CHOICE)
-
-nlogit d p q || type:, base(COKE) || fishmode: income, case(id)
+predict pr*, pr
 
 *** QUESTION 4 ***
 import excel "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/nels_small.xlsx", firstrow clear
@@ -144,53 +155,56 @@ estimates store unrest
 lrtest rest unrest
 
 * 4(d)
-margins, at (BLACK=1 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
+margins, at (BLACK=1 FAMINC=52 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
 
 
 * 4(e)
-margins, at (BLACK=0 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
+margins, at (BLACK=0 FAMINC=52 FAMSIZ=4 PARCOLL=1 GRADES=(6.64,4.95))
 
 
 
 *** QUESTION 5 *** 
-use "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/Cardholder.xlsx", clear
+import excel  "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/Cardholder.xlsx",  firstrow case(lower) clear
 
-gen log_spend = ln(spending)
-gen log_income = ln(income)
+
+destring spending, replace
+
+gen logspend = log(spending)
+gen logincome = ln(income)
 
 
 * 1(a)
-reg log_spend log_income age adepcnt ownrent
+reg logspend logincome age adepcnt ownrent
 
 * 1(b)
-truncreg log_spend log_income age adepcnt ownrent, ll(1)
+truncreg logspend logincome age adepcnt ownrent, ll(1)
 
 * 1(c)
-heckman log_spend log_income age adepcnt ownrent, select(cardholder=log_income age adepcnt ownrent)
+heckman logspend logincome age adepcnt ownrent, select(cardhldr=logincome age adepcnt ownrent)
 
 * 2(a)
-reg log_spend log_income age adepcnt ownrent if cardholder==1
+reg logspend logincome age adepcnt ownrent if cardhldr==1
 
 *2(b)
-truncreg log_spend log_income age adepcnt ownrent if cardholder==1, ll(1)
+truncreg logspend logincome age adepcnt ownrent if cardhldr==1, ll(1)
 
 * 3(a)
-poisson minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
-margins, dydx atmeans
+poisson minordrg logincome age adepcnt ownrent exp_inc if cardhldr==1
+margins, dydx(logincome) atmeans
 
 summarize minordrg, detail
 
 * 3(b)
-nbreg minordrg log_income age adepcnt ownrent exp_inc if cardholder==1
-margins, dydx atmeans
+nbreg minordrg logincome age adepcnt ownrent exp_inc if cardhldr==1
+margins, dydx(logincome) atmeans
 
 * 3(c) 
 
-tpoisson minordrg log_income age adepcnt ownrent exp_inc
-margins, dydx atmeans
+poisson minordrg logincome age adepcnt ownrent exp_inc, offset(cardhldr)
+margins, dydx(logincome) atmeans
 
-tnbreg minordrg log_income age adepcnt ownrent exp_inc
-margins, dydx atmeans
+nbreg minordrg logincome age adepcnt ownrent exp_inc, offset(cardhldr)
+margins, dydx(logincome) atmeans
     
 
 
