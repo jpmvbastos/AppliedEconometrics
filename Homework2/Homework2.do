@@ -168,8 +168,8 @@ import excel  "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity
 
 
 destring spending, replace
+destring logspend, replace
 
-gen logspend = log(spending)
 gen logincome = ln(income)
 
 
@@ -177,34 +177,42 @@ gen logincome = ln(income)
 reg logspend logincome age adepcnt ownrent
 
 * 1(b)
-truncreg logspend logincome age adepcnt ownrent, ll(1)
+tobit logspend logincome age adepcnt ownrent, ll(1)
+margins, dydx(logincome)
 
 * 1(c)
 heckman logspend logincome age adepcnt ownrent, select(cardhldr=logincome age adepcnt ownrent)
+margins, dydx(logincome)
+
 
 * 2(a)
-reg logspend logincome age adepcnt ownrent if cardhldr==1
+drop if cardhldr==0
+reg logspend logincome age adepcnt ownrent
+
 
 *2(b)
-truncreg logspend logincome age adepcnt ownrent if cardhldr==1, ll(1)
+truncreg logspend logincome age adepcnt ownrent, ll(1)
+
+
+import excel  "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/Homework2/Cardholder.xlsx",  firstrow case(lower) clear
 
 * 3(a)
 poisson minordrg logincome age adepcnt ownrent exp_inc if cardhldr==1
-margins, dydx(logincome) atmeans
+mfx
 
 summarize minordrg, detail
 
 * 3(b)
 nbreg minordrg logincome age adepcnt ownrent exp_inc if cardhldr==1
-margins, dydx(logincome) atmeans
+mfx
 
 * 3(c) 
 
 poisson minordrg logincome age adepcnt ownrent exp_inc, offset(cardhldr)
-margins, dydx(logincome) atmeans
+mfx
 
 nbreg minordrg logincome age adepcnt ownrent exp_inc, offset(cardhldr)
-margins, dydx(logincome) atmeans
+mfx
     
 
 
