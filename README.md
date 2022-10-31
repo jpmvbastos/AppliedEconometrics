@@ -6,7 +6,7 @@ This repository contains codes for projects and homeworks for Applied Econometri
 
 [MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
 
-[Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/fishing.xls) dataset.
+[Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Fishing.xls) dataset.
 
 
 ## [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework1)
