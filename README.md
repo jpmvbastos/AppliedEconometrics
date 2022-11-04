@@ -8,6 +8,8 @@ This repository contains codes for projects and homeworks for Applied Econometri
 
 [Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Fishing.xls) dataset.
 
+[GMM.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/GMM.do) includes examples for application of Generalized Method of Moments estimator, using Stata's ```gmm```. 
+
 
 ## [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework1)
 [Homework1.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) applies Maximum Likelihood techniques to different data generating processes, also relying on Stata for some estimations. The file [Homework1.do](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) has the replication code for Stata, which includes:
