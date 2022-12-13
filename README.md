@@ -21,3 +21,5 @@ Replication data:
 Question 1: [data_1.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/data_1.xlsx).
 
 Question 2: [data_2.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/data_2.xlsx).
+
+## [Homework 2](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework2)
