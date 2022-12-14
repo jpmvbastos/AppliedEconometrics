@@ -23,3 +23,12 @@ Question 1: [data_1.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blo
 Question 2: [data_2.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/data_2.xlsx).
 
 ## [Homework 2](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework2)
+
+Maximum Likelihood estimations with marginal effects in Stata for discrete choice models and censored regressions, including: 
+- Multinomial Logit using ```mlogit```
+- Alternative-specific conditional logit using ```asclogit```
+- Nested logit using ```nlogit```
+- Truncated and censored regressions under a variety of functional forms using ```tobit```,```truncreg```, ```nbreg```, and ```poisson```.
+- Heckman's selection model using ```heckman```
+
+The assignment and related datasets are described in [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Homework2/Homework2.pdf)
