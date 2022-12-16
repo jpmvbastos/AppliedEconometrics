@@ -32,3 +32,9 @@ Maximum Likelihood estimations with marginal effects in Stata for discrete choic
 - Heckman's selection model using ```heckman```
 
 The assignment and related datasets are described in [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Homework2/Homework2.pdf)
+
+## [Homework 3](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework3)
+
+Includes exercises in Time Series using Python and Matlab. 
+
+
