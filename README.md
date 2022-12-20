@@ -35,6 +35,7 @@ The assignment and related datasets are described in [Homework.pdf](https://gith
 
 ## [Homework 3](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework3)
 
-Includes exercises in Time Series using Python and Matlab. 
+Includes exercises in Time Series using Python and Matlab. Includes: 
 
-
+- A simple attempt to replicate the CKLS model from [Chan et al. (1992)](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04011.x).
+- 
