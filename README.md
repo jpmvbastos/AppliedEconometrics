@@ -40,6 +40,7 @@ Includes exercises in Time Series using Python and Matlab.
 Using Matlab:
 - A simple attempt to replicate the CKLS model from [Chan et al. (1992)](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04011.x).
 
-Using Python (```statsmodels```): 
-- Basic autocorrelation and stationariety analysis
-- Autoressive models 
+Using Python: 
+- Basic autocorrelation and stationariety analysis (Dickey-Fuller, Ljung-Box, etc.)
+- Autoressive (AR) models 
+- Conditional Heteroskedasticity models (ARCH, GARCH)
