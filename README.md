@@ -44,3 +44,9 @@ Using Python:
 - Basic autocorrelation and stationariety analysis (Dickey-Fuller, Ljung-Box, etc.)
 - Autoressive (AR) models 
 - Conditional Heteroskedasticity models (ARCH, GARCH)
+
+## [Term Project](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/TermProject)
+
+A working paper where I use Fixed Effects and Maximum Likelihood Estimators to investigate whether corruption is more harmful to female-led businesses.
+
+Using firm-level data from the World Bank Enterprise Surveys with around 130,000 observations in 133 countries, I ask whether female businesses are more likely to pay bribes and whether they report corruption as a bigger obstacle than their male counterparts. 
