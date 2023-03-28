@@ -2,11 +2,13 @@
  
 This repository contains codes for projects and homeworks for courses Applied Econometrics 3 (AAEC6317) and Demand and Price Analysis (AAEC63) at Texas Tech University. 
 
+### General Files
+
+[MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
+
 ## Applied Econometrics III
 
 ### Labs
-
-[MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
 
 [Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/Fishing.xls) dataset.
 
@@ -59,5 +61,7 @@ Using firm-level data from the World Bank Enterprise Surveys with around 130,000
 ### [Lab1]()
 
 Estimates demand models using Stata's ```nlsur``` (Non-Linear Seemingly Unrelated Regression) function.
+- [Code]()
+- [Data]()
 
 
