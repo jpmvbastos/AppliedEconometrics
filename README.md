@@ -1,8 +1,10 @@
-# Applied Econometrics 3
+# Applied Econometrics 
  
-This repository contains codes for projects and homeworks for Applied Econometrics 3 (AAEC6317) course at Texas Tech University. 
+This repository contains codes for projects and homeworks for courses Applied Econometrics 3 (AAEC6317) and Demand and Price Analysis (AAEC63) at Texas Tech University. 
 
-## Labs
+## Applied Econometrics III
+
+### Labs
 
 [MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
 
@@ -11,7 +13,7 @@ This repository contains codes for projects and homeworks for Applied Econometri
 [GMM.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/GMM.do) includes examples for application of Generalized Method of Moments estimator, using Stata's ```gmm```. 
 
 
-## [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework1)
+### [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework1)
 [Homework1.ipynb](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) applies Maximum Likelihood techniques to different data generating processes, also relying on Stata for some estimations. The file [Homework1.do](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/Homework1.ipynb) has the replication code for Stata, which includes:
 - Estimation of Box-Cox demand using ```boxcox```, and using the user-inputed expression method for Maximum Likelihood Estimation (```mlexp```). 
 - Finite Mixture Models: ```fmm```.
@@ -22,7 +24,7 @@ Question 1: [data_1.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blo
 
 Question 2: [data_2.xlsx](https://github.com/jpmvbastos/AppliedEconometrics3/blob/main/Homework1/data_2.xlsx).
 
-## [Homework 2](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework2)
+### [Homework 2](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework2)
 
 Maximum Likelihood estimations with marginal effects in Stata for discrete choice models and censored regressions, including: 
 - Multinomial Logit using ```mlogit```
@@ -33,7 +35,7 @@ Maximum Likelihood estimations with marginal effects in Stata for discrete choic
 
 The assignment and related datasets are described in [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Homework2/Homework2.pdf)
 
-## [Homework 3](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework3)
+### [Homework 3](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/Homework3)
 
 Includes exercises in Time Series using Python and Matlab. 
 
@@ -45,8 +47,17 @@ Using Python:
 - Autoressive (AR) models 
 - Conditional Heteroskedasticity models (ARCH, GARCH)
 
-## [Term Project](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/TermProject)
+### [Term Project](https://github.com/jpmvbastos/AppliedEconometrics3/tree/main/TermProject)
 
 A rought draft where I use Fixed Effects and Maximum Likelihood Estimators to investigate whether corruption is more harmful to female-led businesses.
 
 Using firm-level data from the World Bank Enterprise Surveys with around 130,000 observations in 133 countries, I ask whether female businesses are more likely to pay bribes and whether they report corruption as a bigger obstacle than their male counterparts. 
+
+
+## Demand and Price Analysis
+
+### [Lab1]()
+
+Estimates demand models using Stata's ```nlsur``` (Non-Linear Seemingly Unrelated Regression) function.
+
+
