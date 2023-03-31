@@ -12,7 +12,7 @@ Some of these codes are incomplete and should not be considered as a source of e
 
 ### Labs
 
-[Maximum_Likelihood.do]https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Fishing.xls) dataset.
+[Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Fishing.xls) dataset.
 
 [GMM.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/GMM.do) includes examples for application of Generalized Method of Moments estimator, using Stata's ```gmm```. 
 
