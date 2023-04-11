@@ -3,9 +3,12 @@ This code applies the Almost Ideal Demand System (AIDS)
 using R. 
 ########
 
-install.packages("midEconAids")
+# Install required packages
+# install.packages("midEconAids")
 
-library()
+library(dplyr)
+library(systemfit)
+library(devtools)
 library(micEconAids)
 
 data = read.csv("labdata_2023.csv")
@@ -20,3 +23,5 @@ data$w4 = data$p4*data$q4 / data$Exp
 
 price_m = colMeans(data[, c("p1","p2","p3","p4")])
 shares_m = colMeans(data[, c("w1","w2","w3","w4")])
+
+df
