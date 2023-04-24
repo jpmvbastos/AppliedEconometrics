@@ -30,7 +30,8 @@ gen dlogX = dlnexp - what1*dlnp1 - what2*dlnp2 - what3*dlnp3 - what4*dlnp4
 nlsur (exp1 = {gamma1}*p1 + {beta1}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
 	  (exp2 = {gamma2}*p2 + {beta2}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
 	  (exp3 = {gamma3}*p3 + {beta3}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
-	  (exp4 = {gamma4}*p4 + (1- {beta1} - {beta2} - {beta3})*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)), ifgnls
+	  (exp4 = {gamma4}*p4 + {beta4}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4))
+	  (exp5 = {gamma5}*p5 + (1- {beta1} - {beta2} - {beta3} - {beta4})*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4 - {gamma5}*p5)), ifgnls
 
 matrix b = e(b)
 matrix v_b = e(V)
@@ -50,6 +51,7 @@ scalar gamma3 = b[1,4]
 scalar se_gamma3 = v_b[4,4]
 scalar gamma4 = b[1,5]
 scalar se_gamma4 = v_b[5,5]
+
 
 * Expenditure elasticities
 forvalues i = 1/4 {
