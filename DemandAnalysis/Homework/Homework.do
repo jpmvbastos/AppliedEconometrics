@@ -40,11 +40,13 @@ gen y`i' = what`i'*dlnq`i'
 }
 
 * Linear expenditure model
-nlsur (exp1 = {gamma1}*p1 + {beta1}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
+eststo: nlsur (exp1 = {gamma1}*p1 + {beta1}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
 	  (exp2 = {gamma2}*p2 + {beta2}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
 	  (exp3 = {gamma3}*p3 + {beta3}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
 	  (exp4 = {gamma4}*p4 + {beta4}*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4)) ///
-	  (exp5 = {gamma5}*p5 + (1- {beta1} - {beta2} - {beta3} - {beta4})*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4 - {gamma5}*p5)), ifgnls
+	  (exp5 = {gamma5}*p5 + (1- {beta1} - {beta2} - {beta3} - {beta4} - {beta5})*(exp - {gamma1}*p1 - {gamma2}*p2 - {gamma3}*p3 - {gamma4}*p4 - {gamma5}*p5)), ifgnls
+	  
+esttab using "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/DemandAnalysis/Homework/Table3.tex", se r2
 
 	  
 matrix b = e(b)
@@ -98,5 +100,26 @@ scalar e`i'`j' = -eta`i'*phat`j'*gamma`j'/exphat
 }
 
 matrix elastLES = ( e11, e12, e13, e14, e15 \ e21, e22, e23, e24, e25 \ e31, e32, e33, e34, e35 \ e41, e42, e43, e44, e45 \ e51, e52, e53, e54, e55 )
+matrix expLES = (eta1, eta2, eta3, eta4, eta5 \ se_eta1, se_eta2, se_eta3, se_eta4, se_eta5)
 
-esttab matrix(elastLES) "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/DemandAnalysis/Homework/Table3PriceElas.tex"
+* AIDS MODELS
+
+global price p1 p2 p3 p4 p5 
+global lprice lnp1 lnp2 lnp3 lnp4 lnp5 
+global quantity q1 q2 q3 q4 q5 
+gen lnexp = log(exp)
+
+* (e) Full Aids
+quaids w1 w2 w3 w4 w5, anot(0) prices(p1 p2 p3 p4 p5) expenditure(exp) noquadratic nolog
+estat expenditure, atmeans
+matrix aidsexp = r(expelas)
+estat uncompensated, atmeans
+matrix aidsun = r(uncompelas)
+
+* (f) Quadratic aids
+
+quaids w1 w2 w3 w4 w5, anot(0) prices(p1 p2 p3 p4 p5) expenditure(exp) nolog
+estat expenditure, atmeans
+matrix quaidsexp = r(expelas)
+estat uncompensated, atmeans
+matrix quaidsun = r(uncompelas)
