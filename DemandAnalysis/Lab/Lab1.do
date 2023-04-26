@@ -15,7 +15,7 @@ gen lnexp = log(exp)
 gen dlnexp = log(exp/l.exp)
 
 * Generate budget shares as well as data to estimate Rotterdam model
-forvalues i = 1/4 {
+forvalues i = 1/5 {
 gen w`i' = exp`i'/exp
 gen what`i' = 0.5*(w`i' + l.w`i')
 gen lnp`i' = log(p`i')
@@ -54,7 +54,7 @@ scalar se_gamma4 = v_b[5,5]
 
 
 * Expenditure elasticities
-forvalues i = 1/4 {
+forvalues i = 1/5 {
 sum w`i', meanonly
 scalar wha`i' = r(mean)
 sum p`i', meanonly
@@ -67,9 +67,9 @@ scalar t_stat_eta`i' = eta`i'/se_eta`i'
 }
 
 * Price elasticities
-scalar phat_gamma = phat1*gamma1 + phat2*gamma2 + phat3*gamma3 + phat4*gamma4
-forvalues i = 1/4 {
-forvalues j = 1/4 {
+scalar phat_gamma = phat1*gamma1 + phat2*gamma2 + phat3*gamma3 + phat4*gamma4 + phat5*gamma5
+forvalues i = 1/5 {
+forvalues j = 1/5 {
 if `i' == `j' {
 scalar e`i'`j' = -eta`i'*(1-((phat_gamma - phat`i'*gamma`i')/exphat))
 } 
@@ -80,10 +80,10 @@ scalar e`i'`j' = -eta`i'*phat`j'*gamma`j'/exphat
 }
 
 * Rotterdam model
-nlsur (y1 = {a1}*dlogX + {g11}*dlnp1 + {g12}*dlnp2 + {g13}*dlnp3 + {g14}*dlnp4) ///
-	  (y2 = {a2}*dlogX + {g12}*dlnp1 + {g22}*dlnp2 + {g23}*dlnp3 + {g24}*dlnp4) ///
-	  (y3 = {a3}*dlogX + {g31}*dlnp1 + {g32}*dlnp2 + {g33}*dlnp3 + {g34}*dlnp4) ///
-	  (y4 = {a4}*dlogX + {g41}*dlnp1 + {g42}*dlnp2 + {g43}*dlnp3 + {g44}*dlnp4), ifgnls
+nlsur (y1 = {a1}*dlogX + {g11}*dlnp1 + {g12}*dlnp2 + {g13}*dlnp3 + {g14}*dlnp4 + {g14}*dlnp4) ///
+	  (y2 = {a2}*dlogX + {g12}*dlnp1 + {g22}*dlnp2 + {g23}*dlnp3 + {g24}*dlnp4 + {g14}*dlnp4) ///
+	  (y3 = {a3}*dlogX + {g31}*dlnp1 + {g32}*dlnp2 + {g33}*dlnp3 + {g34}*dlnp4 + {g14}*dlnp4) ///
+	  (y4 = {a4}*dlogX + {g41}*dlnp1 + {g42}*dlnp2 + {g43}*dlnp3 + {g44}*dlnp4 + {g14}*dlnp4), ifgnls
 
 	  
 program nlsurAIDS
@@ -144,3 +144,6 @@ end
 
 nlsur AIDS @ w1 w2 w3 lnp1 lnp2 lnp3 lnp4 exp, parameters(a1 a2 a3 b1 b2 b3 ///
 g11 g12 g13 g22 g32 g33) neq(3) ifgnls
+
+
+
