@@ -43,11 +43,22 @@ replace pbath = 1 if partbath > 0
 drop if rooms > 20
 drop if hprice > 2000000
 
+ gen avg_score = (math4 + reading4 +writing4 +science4 +math6 +reading6 +writing6 ///
+ +science6 +math9 +reading9 +writing9 +science9 +math10 +reading10 +writing10 ///
+ +science10 +math12 +reading12 +writing12 +science12)/20
 
+ gen avg_score_m = (math4 +reading4 +writing4 +science4 +math6 +reading6 +writing6 +science6)/8
+ 
+ gen avg_score_h = (math9 +reading9 +writing9 +science9 +math10 +reading10 ///
+ +writing10 +science10 +math12 +reading12+ writing12+ science12)/12
+
+
+ 
+ 
 * Table 1
 
 sum hprice lnhprice lotsize size age rooms fullbath onestory air
-
+sum enrollrate gradrate exppupil avg_score avg_score_m avg_score_h
 
 * Table 2 
 
@@ -73,11 +84,22 @@ esttab using "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/
 
 
 * Table 4
-
+eststo clear
 eststo: reg hprice rooms fullbath partbath lotsizet age age2 air i.schoolid, cluster(schoolid)
 eststo: reg lnhprice rooms fullbath partbath lotsizet age age2 air i.schoolid, cluster(schoolid)
 
+esttab using "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/DemandAnalysis/Term Paper/Table4.tex", replace se r2
 
+
+* Table 5
+
+eststo clear
+eststo: reg lnhprice rooms fullbath partbath lotsizet age age2 air exppupil, vce(robust)
+eststo: reg lnhprice rooms fullbath partbath lotsizet age age2 air exppupil gradrate avg_score, vce(robust)
+eststo: reg lnhprice rooms fullbath partbath lotsizet age age2 air exppupil gradrate avg_score_m, vce(robust)
+eststo: reg lnhprice rooms fullbath partbath lotsizet age age2 air exppupil gradrate avg_score_h, vce(robust)
+
+esttab using "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/DemandAnalysis/Term Paper/Table5.tex", replace se r2
 
 
 * Appendix 
@@ -96,3 +118,6 @@ eststo: reg hprice sizet, vce(robust)
 eststo: reg hprice sizet rooms , vce(robust)
 
 esttab using "/Users/joamacha/Library/CloudStorage/OneDrive-TexasTechUniversity/Personal/Projects/Code/GitHub/AppliedEconometrics/DemandAnalysis/Term Paper/TableA2.tex", replace se r2
+
+
+
