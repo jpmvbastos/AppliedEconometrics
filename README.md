@@ -60,7 +60,7 @@ Using firm-level data from the World Bank Enterprise Surveys with around 130,000
 A improved version of this project (with Dr. Jamie Bologna Pavlik) using Propensity Score Matching and Mahalanobis Distance Matching is [available at SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4387655).
 
 
-## Demand and Price Analysis
+## [Demand and Price Analysis](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/DemandAnalysis)
 
 ### [Lab1]()
 
