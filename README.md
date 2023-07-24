@@ -62,10 +62,12 @@ A improved version of this project (with Dr. Jamie Bologna Pavlik) using Propens
 
 ## [Demand and Price Analysis](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/DemandAnalysis)
 
-### [Lab1]()
+### [Lab1](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/DemandAnalysis/Lab)
 
 Estimates demand models using Stata's ```nlsur``` (Non-Linear Seemingly Unrelated Regression) function.
-- [Code]()
-- [Data]()
+- [Lab.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Lab/Lab1.do) contains the main code. Other files in the folder contain templates for applying the AIDS model in R and Stata. 
+- [labdata_2023.csv](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Lab/labdata_2023.csv) is the data sample used.
+
+
 
 
