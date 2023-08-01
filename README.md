@@ -68,6 +68,9 @@ Estimates demand models using Stata's ```nlsur``` (Non-Linear Seemingly Unrelate
 - [Lab.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Lab/Lab1.do) contains the main code. Other files in the folder contain templates for applying the AIDS model in R and Stata. 
 - [labdata_2023.csv](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Lab/labdata_2023.csv) is the data sample used.
 
+### [Lab2](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/DemandAnalysis/Lab2)
+
+Includes some resources for estimating an EASI model in R, Python, and Stata.
 
 
 
