@@ -1,12 +1,12 @@
 # Applied Econometrics 
  
-This repository contains codes for projects and homeworks for courses Applied Econometrics 3 (AAEC6317) and Demand and Price Analysis (AAEC63) at Texas Tech University. 
+This repository contains codes for projects and homework for courses Applied Econometrics 3 (AAEC6317) and Demand and Price Analysis (AAEC63) at Texas Tech University. 
 
-Some of these codes are incomplete and should not be considered as a source of educational material other than providing suggestions of how to implement the relevant models in Stata and Python.
+Some of these codes are incomplete and should not be considered as a source of educational material other than providing suggestions on how to implement the relevant models in Stata and Python.
 
 ### General Files
 
-[MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
+[MonteCarlo_Simulations.ipynb](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/MonteCarlo_Simulations.ipynb) applies common econometrics techniques to data-generating processes under the standard assumptions for Gauss-Markov theorem, as well as when those are violated: endogeneity, heteroskedasticity, auto-correlation.
 
 ## Applied Econometrics III
 
@@ -14,12 +14,12 @@ Some of these codes are incomplete and should not be considered as a source of e
 
 [Maximum_Likelihood.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Maximum_Likelihood.do) implements maximum likelihood estimators (multinomial logit ```mlogit```, conditional logit ```asclogit```, and nested logit ```nlogit```) using Stata and the [Fishing.xls](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Labs/Fishing.xls) dataset.
 
-[GMM.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/GMM.do) includes examples for application of Generalized Method of Moments estimator, using Stata's ```gmm```. 
+[GMM.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Labs/GMM.do) includes examples for the application of the Generalized Method of Moments estimator, using Stata's ```gmm```. 
 
 
 ### [Homework 1](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Homework%201/Homework1.ipynb)
 [Homework1.ipynb](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Homework%201/Homework1.ipynb) applies Maximum Likelihood techniques to different data generating processes, also relying on Stata for some estimations. The file [Homework1.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/Applied%20Econometrics%203/Homework%201/Homework1_Stata.do) has the replication code for Stata, which includes:
-- Estimation of Box-Cox demand using ```boxcox```, and using the user-inputed expression method for Maximum Likelihood Estimation (```mlexp```). 
+- Estimation of Box-Cox demand using ```boxcox```, and using the user-inputted expression method for Maximum Likelihood Estimation (```mlexp```). 
 - Finite Mixture Models: ```fmm```.
 
 Replication data: 
@@ -47,17 +47,17 @@ Using Matlab:
 - A simple attempt to replicate the CKLS model from [Chan et al. (1992)](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04011.x).
 
 Using Python: 
-- Basic autocorrelation and stationariety analysis (Dickey-Fuller, Ljung-Box, etc.)
-- Autoressive (AR) models 
+- Basic autocorrelation and stationarity analysis (Dickey-Fuller, Ljung-Box, etc.)
+- Autoregressive (AR) models 
 - Conditional Heteroskedasticity models (ARCH, GARCH)
 
 ### [Term Project](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/Applied%20Econometrics%203/Term%20Project)
 
-A rought draft where I use Fixed Effects and Maximum Likelihood Estimators to investigate whether corruption is more harmful to female-led businesses.
+A rough draft where I use Fixed Effects and Maximum Likelihood Estimators to investigate whether corruption is more harmful to female-led businesses.
 
 Using firm-level data from the World Bank Enterprise Surveys with around 130,000 observations in 133 countries, I ask whether female businesses are more likely to pay bribes and whether they report corruption as a bigger obstacle than their male counterparts. 
 
-A improved version of this project (with Dr. Jamie Bologna Pavlik) using Propensity Score Matching and Mahalanobis Distance Matching is [available at SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4387655).
+An improved version of this project (with Dr. Jamie Bologna Pavlik) using Propensity Score Matching and Mahalanobis Distance Matching is [available at SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4387655).
 
 
 ## [Demand and Price Analysis](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/DemandAnalysis)
