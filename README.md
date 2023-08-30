@@ -72,5 +72,9 @@ Estimates demand models using Stata's ```nlsur``` (Non-Linear Seemingly Unrelate
 
 Includes some resources for estimating an EASI model in R, Python, and Stata.
 
+### [Homework](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework)
+
+- [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework/Homework3.pdf) presents the assignment.
+
 
 
