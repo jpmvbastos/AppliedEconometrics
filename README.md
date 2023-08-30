@@ -75,6 +75,9 @@ Includes some resources for estimating an EASI model in R, Python, and Stata.
 ### [Homework](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework)
 
 - [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework/Homework3.pdf) presents the assignment.
+- [Homework.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework/Homework.do) answers questions one and three using Stata.
+
+Questions include applications of ```nlsur```and ```quaids``` function. These can be used as templates for creating user-specified programs for demand estimation.
 
 
 
