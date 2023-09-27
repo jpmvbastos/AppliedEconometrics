@@ -79,5 +79,10 @@ Includes some resources for estimating an EASI model in R, Python, and Stata.
 
 Questions include applications of ```nlsur```and ```quaids``` function. These can be used as templates for creating user-specified programs for demand estimation.
 
+## [Causal Inference](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/Causal%20Inference)
+
+### [Homework](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/Causal%20Inference/Homework)
+
+Replicates the differences-in-differences analysis from Card & Krueger (1994) and applied clustered wild bootstrap methods for inference using ```boottest```.
 
 
