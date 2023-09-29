@@ -77,7 +77,12 @@ Includes some resources for estimating an EASI model in R, Python, and Stata.
 - [Homework.pdf](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework/Homework3.pdf) presents the assignment.
 - [Homework.do](https://github.com/jpmvbastos/AppliedEconometrics/blob/main/DemandAnalysis/Homework/Homework.do) answers questions one and three using Stata.
 
-Questions include applications of ```nlsur```and ```quaids``` function. These can be used as templates for creating user-specified programs for demand estimation.
+Questions include applications of ```nlsur``` and ```quaids```functions. These can be used as templates for creating user-specified programs for demand estimation.
 
+## [Causal Inference](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/Causal%20Inference)
+
+### [Homework](https://github.com/jpmvbastos/AppliedEconometrics/tree/main/Causal%20Inference/Homework)
+
+Replicates the differences-in-differences analysis from Card & Krueger (1994) and applies clustered wild bootstrap methods for inference using ```boottest```.
 
 
