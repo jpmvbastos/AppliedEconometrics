@@ -1,7 +1,7 @@
 **** Homework 1 - Causal Inference ****
 
 * Data
-use "/Users/jpmvbastos/Library/CloudStorage/OneDrive-TexasTechUniversity/Fall 2023/Causal Inference/Homework/CardKrueger1994.dta"
+use "/Users/jpmvbastos/Library/CloudStorage/OneDrive-TexasTechUniversity/Fall 2023/Causal Inference/Homework/CardKrueger1994.dta", clear
 
 * New Variables
 gen byte treat = 1 if treated==1
@@ -48,3 +48,5 @@ esttab using "/Users/jpmvbastos/Library/CloudStorage/OneDrive-TexasTechUniversit
 
 * Get percentage of BK relative to the whole sample
 tab chain 
+
+
