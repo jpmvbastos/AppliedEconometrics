@@ -1,6 +1,8 @@
 * Import
 
-import delimited "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Data/MainData.csv", clear 
+cd "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/"
+
+import delimited "Data/MainData.csv", clear 
 
 gen treat = 0
 replace treat = 2014 if host==1
@@ -42,6 +44,10 @@ label var gdppc "Municipal GDP per capita"
 
 
 foreach k in transportation accommodation retail construction { 
+	gen share_`k' = `k' / total
+	gen share_`k'_emp = `k'_emp / total_emp
+	label var share_`k' "Share of firms in sector `k'"
+	label var share_`k'_emp "Share of employees in sector `k'"
 	label var `k' "Total number of firms in `k' sector"
 	label var `k'_s "Total number of small firms in `k' sector"
 	label var `k'_m "Total number of medium firms in `k' sector"
@@ -52,27 +58,76 @@ foreach k in transportation accommodation retail construction {
 }
 
 
-save "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Data/WorldCupYearly.dta", replace
-
+save "Data/WorldCupYearly.dta", replace
 
 
 
 * Clean Start Here
 
-use "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Data/WorldCupYearly.dta", clear
+use "Data/WorldCupYearly.dta", clear
 
-local controls "icms_pc gdppc total_emp transportation accommodation retail construction cand npassengers nairports_from ncountry_from"
+global outcomes "total transportation accommodation retail construction total_emp transportation_emp accommodation_emp retail_emp construction_emp"
+global controls "gdppc total_emp homiciderate uf transportation accommodation retail construction pop cand"
 
-csdid total_emp gdppc total_emp homiciderate uf transportation accommodation retail  /// 
-	construction pop cand if main==1, ivar(ibge_code) time(year) gvar(treat) ///
-		wboot reps(250) cluster(uf)
+
+* Main results 
+foreach v in  $outcomes {
+
+csdid `v' $controls if main==1, ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(2014)
+
+graph export "Plots/`v'.png", as(png) name("Graph")
+
+}
+
+global controls "gdppc homiciderate pop cand total total_emp"
+
+
+* Main results (alternative controls)
+foreach v in  $outcomes {
+
+csdid `v' `v' $controls if main==1, ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(2014)
+
+graph export "Plots/`v'_lags.png", as(png) name("Graph")
+
+}
+
+
+
+* Results in Shares
+
+global shares "share_transportation share_transportation_emp share_accommodation share_accommodation_emp share_retail share_retail_emp share_construction share_construction_emp"
+global controls "gdppc homiciderate uf pop cand"
+
+foreach v in  $shares {
+
+csdid `v' `v' $controls if main==1, ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(2014)
+
+graph export "Plots/Shares/`v'.png", as(png) name("Graph")
+
+}
+
+
+csdid total total $controls if main==1, ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) saverif(est_details)
 csdid_plot, group(2014)
 
 
-csdid retail_emp gdppc total_emp homiciderate uf transportation accommodation retail  /// 
-	construction pop cand if main==1, ivar(ibge_code) time(year) gvar(treat) ///
-		wboot reps(250) cluster(uf)
+
+foreach v in  $outcomes {
+
+csdid `v' $controls if main==1, ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
 csdid_plot, group(2014)
+
+graph export "Plots/`v'.png", as(png) name("Graph")
+
+}
 
 
 
@@ -126,18 +181,42 @@ foreach k in small large {
 
 
 foreach k in transportation accommodation retail construction {
-		label var hired_`k' "Total number of opened jobs in `k'"
-		label var fired_`k' "Total number of closed jobs in `k'"
-		label var temp_hired_`k' "Number of temporary jobs opened in `k'"
-		label var temp_fired_`k' "Number of temporary jobs closed in `k'"
-		label var th_wages_`k' "Sum of wages, jobs opened in `k'"
-		label var tf_wages_`k' "Sum of wages, jobs closed in `k'"
-		label var th_hours_`k' "Sum of hired hours, jobs opened in `k'"
-		label var tf_hours_`k' "Sum of hired hours, jobs opened in `k'"
-		label var netjobs_`k' "Net change in jobs, sector `k'"
-		label var net_wages_`k' "Net change in total wages, sector `k'"
-		label var net_hours_`k' "Net change in total hired hours, sector `k'"
+		gen wage_`k' = net_wages_`k' / net_hours_`k'
+		label var wage_`k' "Average hourly rate in sector `k'"
+		}
+		
+gen avg_wage = net_wages / net_hours
+gen avg_wage_t = net_tempwages / net_temphours
+
+gen treat = 0 
+replace treat = 1 if period==201406 & host==1
+
+
+/*
+import excel "Data/munic_data_monthly.xlsx", firstrow clear
+save "Data/munic_data_monthly.dta", replace
+use "Data/WorldCupMonthly.dta", clear
+merge m:1 ibge_code using "Data/munic_data_monthly.dta"
+*/
+
+save "Data/WorldCupMonthly.dta", replace
+
+
+use "Data/WorldCupMonthly.dta", replace
+
+encode sigla, gen(uf)
+
+* Main results 
+global outcomes "netjobs net_wages net_hours net_tempjobs net_tempwages net_temphours avg_wage avg_wage_t"
+
+
+foreach v in  $outcomes {
+
+csdid `v' $outcomes, ivar(ibge_code) time(period) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(2014)
+
+graph export "Plots/CAGED/`v'.png", as(png) name("Graph")
+
 }
 
-
-save "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Data/WorldCupMonthly.dta", replace
