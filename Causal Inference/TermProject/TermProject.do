@@ -181,15 +181,29 @@ foreach k in small large {
 
 
 foreach k in transportation accommodation retail construction {
-		gen wage_`k' = net_wages_`k' / net_hours_`k'
+		drop wage_`k'
+		gen wage_`k' = th_wages_`k' / th_hours_`k'
 		label var wage_`k' "Average hourly rate in sector `k'"
+		
 		}
 		
 gen avg_wage = net_wages / net_hours
 gen avg_wage_t = net_tempwages / net_temphours
 
+gen avg_wage_f = tf_wages / tf_hours
+gen avg_wage_h = th_wages / th_hours
+
+encode sigla, gen(uf)
+egen time = group(period)
+
+egen avg_pop = mean(population), by(ibge_code)
+gen main=0
+replace main=1 if pop>100000
+
 gen treat = 0 
-replace treat = 1 if period==201406 & host==1
+replace treat = 18 if host==1
+
+gen gdppc = pibmunicipal/population
 
 
 /*
@@ -204,19 +218,48 @@ save "Data/WorldCupMonthly.dta", replace
 
 use "Data/WorldCupMonthly.dta", replace
 
-encode sigla, gen(uf)
-
 * Main results 
 global outcomes "netjobs net_wages net_hours net_tempjobs net_tempwages net_temphours avg_wage avg_wage_t"
+global outcomes2 "avg_wage_h avg_wage_f temp_hired temp_fired th_wages tf_wages th_hours tf_hours"
+global controls "gdppc pop uf"
+ 
 
+foreach v in  $outcomes2 {
 
-foreach v in  $outcomes {
-
-csdid `v' $outcomes, ivar(ibge_code) time(period) gvar(treat) ///
+csdid `v' `v' $controls if main==1, ivar(ibge_code) time(time) gvar(treat) ///
 		wboot reps(250) cluster(uf) rseed(1)
-csdid_plot, group(2014)
+csdid_plot, group(18)
 
-graph export "Plots/CAGED/`v'.png", as(png) name("Graph")
+graph export "Plots/CAGED/`v'.png", as(png) name("Graph") replace
+
+}
+
+
+
+global sectors "hired_accommodation temp_hired_accommodation th_wages_accommodation th_hours_accommodation netjobs_accommodation net_hours_accommodation hired_retail temp_hired_retail th_wages_retail th_hours_retail netjobs_retail net_wages_retail net_hours_retail hired_transportation temp_hired_transportation th_wages_transportation th_hours_transportation netjobs_transportation net_wages_transportation net_hours_transportation hired_construction temp_hired_construction th_wages_construction th_hours_construction netjobs_construction net_wages_construction net_hours_construction"
+
+global controls "gdppc pop uf"
+ 
+
+foreach v in  $sectors {
+
+csdid `v' `v' $controls if main==1, ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(18)
+
+graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
+
+}
+
+global wage_sector "wage_transportation wage_accommodation wage_retail wage_construction"
+
+foreach v in  $wage_sector {
+
+csdid `v' `v' $controls if main==1, ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1)
+csdid_plot, group(18)
+
+graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
 
 }
 
