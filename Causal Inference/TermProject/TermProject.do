@@ -61,7 +61,6 @@ foreach k in transportation accommodation retail construction {
 save "Data/WorldCupYearly.dta", replace
 
 
-
 * Clean Start Here
 
 use "Data/WorldCupYearly.dta", clear
@@ -233,8 +232,79 @@ graph export "Plots/CAGED/`v'.png", as(png) name("Graph") replace
 
 }
 
+* Using Entropy Balancing
+
+cd "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/"
+
+use "Data/WorldCupMonthly.dta", clear
+
+drop if period==.
+
+gen p100k = 0 
+gen p200k = 0
+
+replace p100k=1 if avg_pop > 100000
+replace p200k=1 if avg_pop > 200000
+
+foreach v in netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction {
+	
+	replace `v' = `v' / (population/10000)
+	
+}
+
+gen post = 0
+replace post = 1 if period > 201405
 
 
+global outcomes "netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction"
+
+
+ebalance host gdppc $outcomes if p100k==1 & period==201405, ///
+generate(ebal100k) maxiter(50) target(2) 
+
+ebalance host gdppc $outcomes if p200k==1 & period==201405, ///
+generate(ebal200k) maxiter(50) target(2) 
+
+* extend ebalance weight constant for the whole 
+
+egen ebal100kc = total(ebal100k), by(ibge_code)
+egen ebal200kc = total(ebal200k), by(ibge_code)
+
+replace ebal100kc = . if ebal100kc == 0
+replace ebal200kc = . if ebal200kc == 0
+
+gen treat = 0 
+replace treat = 18 if host==1
+
+log using "Logs/EntropyMonth_NetJobs.smcl"
+
+* Main Results
+
+foreach v in $outcomes{ 
+
+csdid `v' gdppc if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Jobs per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
+	
+
+csdid `v' gdppc if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Jobs per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/`v'_200k.png", as(png) name("Graph") replace
+	
+}
+
+log close
+
+
+/*
 global sectors "hired_accommodation temp_hired_accommodation th_wages_accommodation th_hours_accommodation netjobs_accommodation net_hours_accommodation hired_retail temp_hired_retail th_wages_retail th_hours_retail netjobs_retail net_wages_retail net_hours_retail hired_transportation temp_hired_transportation th_wages_transportation th_hours_transportation netjobs_transportation net_wages_transportation net_hours_transportation hired_construction temp_hired_construction th_wages_construction th_hours_construction netjobs_construction net_wages_construction net_hours_construction"
 
 global controls "gdppc pop uf"
@@ -262,5 +332,4 @@ graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
 
 }
 
-
-* 
+*/ 

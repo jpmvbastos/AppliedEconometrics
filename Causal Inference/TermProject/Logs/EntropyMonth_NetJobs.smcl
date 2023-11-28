@@ -1,0 +1,495 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Logs/EntropyMonth_NetJobs.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}28 Nov 2023, 09:47:59
+{txt}
+{com}. 
+. * Main Results
+. 
+. foreach v in $outcomes{c -(} 
+{txt}  2{com}. 
+. csdid `v' gdppc if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(time) gvar(treat) ///
+>                 wboot reps(250) cluster(uf) rseed(1) reg
+{txt}  3{com}. 
+. csdid_plot, group(18) xtitle("Periods from World Cup") ///
+>         ytitle("ATT: Net Change in Jobs per 10,000 people")
+{txt}  4{com}.         
+. graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
+{txt}  5{com}.         
+. 
+. csdid `v' gdppc if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
+>                 wboot reps(250) cluster(uf) rseed(1) reg
+{txt}  6{com}. 
+. csdid_plot, group(18) xtitle("Periods from World Cup") ///
+>         ytitle("ATT: Net Change in Jobs per 10,000 people")
+{txt}  7{com}.         
+. graph export "Plots/CAGED/Entropy/`v'_200k.png", as(png) name("Graph") replace
+{txt}  8{com}.         
+. {c )-}
+.{res}......................{txt}(118,839 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,176}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 3.002214{col 26}{space 1} 3.210525{col 38}   0.94{col 46}{space 3}-6.317794{col 58}{space 3} 12.32222
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2} 5.607258{col 26}{space 1}  3.24744{col 38}   1.73{col 46}{space 3}-3.819912{col 58}{space 3} 15.03443
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-3.559529{col 26}{space 1} 3.916318{col 38}  -0.91{col 46}{space 3}-14.92842{col 58}{space 3} 7.809366
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} .3664957{col 26}{space 1} 3.214804{col 38}   0.11{col 46}{space 3}-8.965935{col 58}{space 3} 9.698926
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} 2.767902{col 26}{space 1} 2.272341{col 38}   1.22{col 46}{space 3}-3.828601{col 58}{space 3} 9.364406
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-4.295361{col 26}{space 1} 3.446582{col 38}  -1.25{col 46}{space 3}-14.30063{col 58}{space 3} 5.709909
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2} 3.283194{col 26}{space 1} 2.963831{col 38}   1.11{col 46}{space 3}-5.320673{col 58}{space 3} 11.88706
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} 1.577637{col 26}{space 1} 2.072384{col 38}   0.76{col 46}{space 3}-4.438399{col 58}{space 3} 7.593673
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-4.425676{col 26}{space 1} 2.697731{col 38}  -1.64{col 46}{space 3}-12.25707{col 58}{space 3} 3.405715
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2} 6.355719{col 26}{space 1} 3.785458{col 38}   1.68{col 46}{space 3}-4.633293{col 58}{space 3} 17.34473
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2} 4.868812{col 26}{space 1} 8.253923{col 38}   0.59{col 46}{space 3}-19.09195{col 58}{space 3} 28.82957
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-17.28853{col 26}{space 1}  10.1854{col 38}  -1.70{col 46}{space 3}-46.85629{col 58}{space 3} 12.27922
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} 3.284252{col 26}{space 1} 4.554552{col 38}   0.72{col 46}{space 3}-9.937406{col 58}{space 3} 16.50591
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} 2.448944{col 26}{space 1} 5.807313{col 38}   0.42{col 46}{space 3}-14.40942{col 58}{space 3} 19.30731
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2} 1.312637{col 26}{space 1} 3.012103{col 38}   0.44{col 46}{space 3}-7.431362{col 58}{space 3} 10.05664
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} 1.353272{col 26}{space 1} 2.171611{col 38}   0.62{col 46}{space 3}-4.950818{col 58}{space 3} 7.657361
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} .9847328{col 26}{space 1} 2.791153{col 38}   0.35{col 46}{space 3}-7.117856{col 58}{space 3} 9.087322
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}-4.978011{col 26}{space 1} 3.476196{col 38}  -1.43{col 46}{space 3}-15.06925{col 58}{space 3} 5.113229
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} 3.799137{col 26}{space 1} 3.466371{col 38}   1.10{col 46}{space 3} -6.26358{col 58}{space 3} 13.86185
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} 4.749528{col 26}{space 1} 2.716693{col 38}   1.75{col 46}{space 3}-3.136909{col 58}{space 3} 12.63597
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2} 1.166617{col 26}{space 1} 3.949368{col 38}   0.30{col 46}{space 3}-10.29822{col 58}{space 3} 12.63145
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} 5.813125{col 26}{space 1} 4.126482{col 38}   1.41{col 46}{space 3}-6.165865{col 58}{space 3} 17.79211
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 7.848924{col 26}{space 1} 6.985654{col 38}   1.12{col 46}{space 3}-12.43011{col 58}{space 3} 28.12796
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_100k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(122,535 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:3,480}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 2.000365{col 26}{space 1} 3.333746{col 38}   0.60{col 46}{space 3}-7.673192{col 58}{space 3} 11.67392
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2} 6.216131{col 26}{space 1} 3.431911{col 38}   1.81{col 46}{space 3}-3.742274{col 58}{space 3} 16.17454
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-.3190379{col 26}{space 1} 3.797054{col 38}  -0.08{col 46}{space 3}-11.33698{col 58}{space 3} 10.69891
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2}-.9684938{col 26}{space 1} 2.494647{col 38}  -0.39{col 46}{space 3}-8.207233{col 58}{space 3} 6.270245
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} 3.115953{col 26}{space 1} 2.382556{col 38}   1.31{col 46}{space 3}-3.797531{col 58}{space 3} 10.02944
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-3.936356{col 26}{space 1} 3.045328{col 38}  -1.29{col 46}{space 3}-12.77301{col 58}{space 3} 4.900297
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2}  1.64296{col 26}{space 1} 3.244133{col 38}   0.51{col 46}{space 3}-7.770569{col 58}{space 3} 11.05649
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} 1.267097{col 26}{space 1}  2.56457{col 38}   0.49{col 46}{space 3}-6.174538{col 58}{space 3} 8.708732
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-2.803257{col 26}{space 1} 2.797744{col 38}  -1.00{col 46}{space 3}-10.92149{col 58}{space 3}  5.31498
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2}  5.38543{col 26}{space 1} 3.684107{col 38}   1.46{col 46}{space 3}-5.304773{col 58}{space 3} 16.07563
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2} 6.431866{col 26}{space 1} 9.034774{col 38}   0.71{col 46}{space 3}-19.78441{col 58}{space 3} 32.64815
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-19.69029{col 26}{space 1} 12.51969{col 38}  -1.57{col 46}{space 3}-56.01878{col 58}{space 3}  16.6382
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} 2.644559{col 26}{space 1} 4.074671{col 38}   0.65{col 46}{space 3}-9.178948{col 58}{space 3} 14.46807
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} 4.413228{col 26}{space 1} 6.274866{col 38}   0.70{col 46}{space 3} -13.7946{col 58}{space 3} 22.62106
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2} 2.920455{col 26}{space 1} 2.556699{col 38}   1.14{col 46}{space 3}-4.498338{col 58}{space 3} 10.33925
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2}-.6386451{col 26}{space 1} 1.813694{col 38}  -0.35{col 46}{space 3}-5.901458{col 58}{space 3} 4.624167
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} 2.570961{col 26}{space 1} 3.755832{col 38}   0.68{col 46}{space 3} -8.32737{col 58}{space 3} 13.46929
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}-5.793684{col 26}{space 1} 4.243093{col 38}  -1.37{col 46}{space 3} -18.1059{col 58}{space 3} 6.518534
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} 1.770792{col 26}{space 1} 3.733739{col 38}   0.47{col 46}{space 3}-9.063429{col 58}{space 3} 12.60501
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} 5.247915{col 26}{space 1} 3.234442{col 38}   1.62{col 46}{space 3}-4.137492{col 58}{space 3} 14.63332
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2}-.9566977{col 26}{space 1} 4.822963{col 38}  -0.20{col 46}{space 3}-14.95153{col 58}{space 3} 13.03813
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} 4.434055{col 26}{space 1} 5.161925{col 38}   0.86{col 46}{space 3}-10.54435{col 58}{space 3} 19.41246
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 8.252405{col 26}{space 1} 8.471144{col 38}   0.97{col 46}{space 3}-16.32839{col 58}{space 3}  32.8332
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_200k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(118,839 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,176}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} .8232564{col 26}{space 1} .4707674{col 38}   1.75{col 46}{space 3}-.4690624{col 58}{space 3} 2.115575
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2}-.4221142{col 26}{space 1} .4933258{col 38}  -0.86{col 46}{space 3}-1.776359{col 58}{space 3} .9321306
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-.4528944{col 26}{space 1} .5192469{col 38}  -0.87{col 46}{space 3}-1.878296{col 58}{space 3}  .972507
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} 1.075605{col 26}{space 1} .7164232{col 38}   1.50{col 46}{space 3}-.8910717{col 58}{space 3} 3.042282
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2}-.4542275{col 26}{space 1} .7726029{col 38}  -0.59{col 46}{space 3}-2.575125{col 58}{space 3}  1.66667
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-.2006817{col 26}{space 1} .3773206{col 38}  -0.53{col 46}{space 3}-1.236477{col 58}{space 3} .8351135
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2} .1797956{col 26}{space 1} .5312034{col 38}   0.34{col 46}{space 3}-1.278428{col 58}{space 3} 1.638019
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} .1411517{col 26}{space 1} .3673298{col 38}   0.38{col 46}{space 3}-.8672172{col 58}{space 3} 1.149521
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}  .032728{col 26}{space 1} .4772655{col 38}   0.07{col 46}{space 3}-1.277429{col 58}{space 3} 1.342885
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2} .7978994{col 26}{space 1} .4940242{col 38}   1.62{col 46}{space 3}-.5582625{col 58}{space 3} 2.154061
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2}-.4427405{col 26}{space 1} .5635874{col 38}  -0.79{col 46}{space 3}-1.989863{col 58}{space 3} 1.104382
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2} -.333261{col 26}{space 1} .7550993{col 38}  -0.44{col 46}{space 3}-2.406108{col 58}{space 3} 1.739586
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} .6627829{col 26}{space 1} .7504355{col 38}   0.88{col 46}{space 3}-1.397262{col 58}{space 3} 2.722828
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2}-.2684199{col 26}{space 1} .4278256{col 38}  -0.63{col 46}{space 3}-1.442858{col 58}{space 3}  .906018
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-.6286159{col 26}{space 1} .4138896{col 38}  -1.52{col 46}{space 3}-1.764798{col 58}{space 3} .5075659
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} .3768409{col 26}{space 1} .6017171{col 38}   0.63{col 46}{space 3}-1.274952{col 58}{space 3} 2.028634
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2}  -.15976{col 26}{space 1} .6260491{col 38}  -0.26{col 46}{space 3}-1.878348{col 58}{space 3} 1.558828
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2} .3345191{col 26}{space 1} .4849601{col 38}   0.69{col 46}{space 3}-.9967606{col 58}{space 3} 1.665799
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} .4775767{col 26}{space 1} .6281234{col 38}   0.76{col 46}{space 3}-1.246705{col 58}{space 3} 2.201859
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} -.264839{col 26}{space 1} .5519633{col 38}  -0.48{col 46}{space 3}-1.780051{col 58}{space 3} 1.250373
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2} .3109676{col 26}{space 1} .5460567{col 38}   0.57{col 46}{space 3} -1.18803{col 58}{space 3} 1.809966
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} .3389208{col 26}{space 1} .5307337{col 38}   0.64{col 46}{space 3}-1.118014{col 58}{space 3} 1.795855
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 1.279131{col 26}{space 1} .4827096{col 38}   2.65{col 46}{space 3}-.0459703{col 58}{space 3} 2.604233
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_transportation_100k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(122,535 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:3,480}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} .9072942{col 26}{space 1} .6665897{col 38}   1.36{col 46}{space 3}-.9570922{col 58}{space 3} 2.771681
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2}-.6988093{col 26}{space 1}  .612123{col 38}  -1.14{col 46}{space 3}-2.410858{col 58}{space 3} 1.013239
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-.0856515{col 26}{space 1} .4309902{col 38}  -0.20{col 46}{space 3}-1.291089{col 58}{space 3} 1.119786
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} 1.239949{col 26}{space 1} .7531875{col 38}   1.65{col 46}{space 3}-.8666428{col 58}{space 3} 3.346542
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2}-.8567847{col 26}{space 1}  .968898{col 38}  -0.88{col 46}{space 3}-3.566698{col 58}{space 3} 1.853129
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-.3155089{col 26}{space 1} .2986127{col 38}  -1.06{col 46}{space 3}  -1.1507{col 58}{space 3} .5196817
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2}  .247229{col 26}{space 1}  .433094{col 38}   0.57{col 46}{space 3}-.9640927{col 58}{space 3} 1.458551
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} .3105609{col 26}{space 1} .2241609{col 38}   1.39{col 46}{space 3}-.3163952{col 58}{space 3}  .937517
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2} .1235178{col 26}{space 1} .5953214{col 38}   0.21{col 46}{space 3}-1.541538{col 58}{space 3} 1.788574
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2}  .908293{col 26}{space 1} .7062087{col 38}   1.29{col 46}{space 3}-1.066904{col 58}{space 3}  2.88349
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2}-.6258311{col 26}{space 1} .6540185{col 38}  -0.96{col 46}{space 3}-2.455057{col 58}{space 3} 1.203395
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2} .0171578{col 26}{space 1} 1.108617{col 38}   0.02{col 46}{space 3}-3.083535{col 58}{space 3} 3.117851
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} .2960036{col 26}{space 1} .9287272{col 38}   0.32{col 46}{space 3}-2.301556{col 58}{space 3} 2.893563
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2}  .018548{col 26}{space 1} .3179157{col 38}   0.06{col 46}{space 3}-.8706312{col 58}{space 3} .9077272
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-.4703077{col 26}{space 1} .4728939{col 38}  -0.99{col 46}{space 3}-1.792946{col 58}{space 3} .8523305
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} .0502478{col 26}{space 1}  .688974{col 38}   0.07{col 46}{space 3}-1.876745{col 58}{space 3} 1.977241
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} .0728138{col 26}{space 1} .6166231{col 38}   0.12{col 46}{space 3}-1.651821{col 58}{space 3} 1.797448
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2} .1650282{col 26}{space 1} .6909469{col 38}   0.24{col 46}{space 3}-1.767483{col 58}{space 3} 2.097539
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} .3518714{col 26}{space 1} .8293977{col 38}   0.42{col 46}{space 3}-1.967873{col 58}{space 3} 2.671616
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2}-.3071793{col 26}{space 1} .6304811{col 38}  -0.49{col 46}{space 3}-2.070574{col 58}{space 3} 1.456215
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2} .0200742{col 26}{space 1} .7765264{col 38}   0.03{col 46}{space 3}-2.151795{col 58}{space 3} 2.191943
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} .2699145{col 26}{space 1} .8755337{col 38}   0.31{col 46}{space 3}-2.178868{col 58}{space 3} 2.718697
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 1.085697{col 26}{space 1} .6712728{col 38}   1.62{col 46}{space 3}-.7917877{col 58}{space 3} 2.963181
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_transportation_200k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(118,839 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,176}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 1.901334{col 26}{space 1} .8021484{col 38}   2.37{col 46}{space 3}-.3562398{col 58}{space 3} 4.158907
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2}-.2350179{col 26}{space 1} .4105069{col 38}  -0.57{col 46}{space 3}-1.390352{col 58}{space 3} .9203164
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}  .114608{col 26}{space 1} .4784256{col 38}   0.24{col 46}{space 3}-1.231877{col 58}{space 3} 1.461093
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} -.813454{col 26}{space 1} .6806175{col 38}  -1.20{col 46}{space 3} -2.72899{col 58}{space 3} 1.102082
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} 1.170845{col 26}{space 1} 1.072751{col 38}   1.09{col 46}{space 3}-1.848314{col 58}{space 3} 4.190004
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-.8623643{col 26}{space 1} .8755578{col 38}  -0.98{col 46}{space 3}-3.326542{col 58}{space 3} 1.601813
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2} .3971613{col 26}{space 1}   .57711{col 38}   0.69{col 46}{space 3}-1.227062{col 58}{space 3} 2.021385
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2}-.5798198{col 26}{space 1} .4491023{col 38}  -1.29{col 46}{space 3}-1.843777{col 58}{space 3} .6841377
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-.7260076{col 26}{space 1} .4359006{col 38}  -1.67{col 46}{space 3} -1.95281{col 58}{space 3}  .500795
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2}  1.32269{col 26}{space 1} .3896888{col 38}   3.39{col 46}{space 3} .2259466{col 58}{space 3} 2.419434
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2}-.7922433{col 26}{space 1} .4680634{col 38}  -1.69{col 46}{space 3}-2.109565{col 58}{space 3} .5250785
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-.5492347{col 26}{space 1} .6923517{col 38}  -0.79{col 46}{space 3}-2.497795{col 58}{space 3} 1.399326
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} .5218084{col 26}{space 1} .5506219{col 38}   0.95{col 46}{space 3}-1.027867{col 58}{space 3} 2.071484
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} .0913841{col 26}{space 1} .6604318{col 38}   0.14{col 46}{space 3}-1.767341{col 58}{space 3} 1.950109
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2} .6887143{col 26}{space 1} .5923732{col 38}   1.16{col 46}{space 3}-.9784661{col 58}{space 3} 2.355895
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} -.554545{col 26}{space 1} .5084107{col 38}  -1.09{col 46}{space 3}-1.985421{col 58}{space 3} .8763307
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} .7312304{col 26}{space 1} .5015337{col 38}   1.46{col 46}{space 3}-.6802904{col 58}{space 3} 2.142751
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}  -1.2427{col 26}{space 1} .7044754{col 38}  -1.76{col 46}{space 3}-3.225382{col 58}{space 3} .7399819
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2}   .44405{col 26}{space 1} .5200176{col 38}   0.85{col 46}{space 3}-1.019492{col 58}{space 3} 1.907592
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} .3634492{col 26}{space 1}  .541299{col 38}   0.67{col 46}{space 3}-1.159987{col 58}{space 3} 1.886886
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2}-.7446515{col 26}{space 1} .9213749{col 38}  -0.81{col 46}{space 3}-3.337777{col 58}{space 3} 1.848474
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2}-.1461429{col 26}{space 1} .4650926{col 38}  -0.31{col 46}{space 3}-1.455104{col 58}{space 3} 1.162818
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2}-.8655831{col 26}{space 1} .7064104{col 38}  -1.23{col 46}{space 3}-2.853711{col 58}{space 3} 1.122545
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_accommodation_100k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(122,535 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:3,480}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 1.893746{col 26}{space 1} .8015667{col 38}   2.36{col 46}{space 3}-.3826597{col 58}{space 3} 4.170152
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2} -.396194{col 26}{space 1} .4403193{col 38}  -0.90{col 46}{space 3}-1.646677{col 58}{space 3}  .854289
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2} .2735024{col 26}{space 1} .6381671{col 38}   0.43{col 46}{space 3}-1.538858{col 58}{space 3} 2.085862
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2}-.7534779{col 26}{space 1} .6666951{col 38}  -1.13{col 46}{space 3}-2.646856{col 58}{space 3}   1.1399
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} 1.356325{col 26}{space 1} 1.133462{col 38}   1.20{col 46}{space 3}-1.862645{col 58}{space 3} 4.575295
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-1.469986{col 26}{space 1} .9044869{col 38}  -1.63{col 46}{space 3} -4.03868{col 58}{space 3} 1.098708
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2} .7877072{col 26}{space 1} .5477571{col 38}   1.44{col 46}{space 3}-.7678932{col 58}{space 3} 2.343308
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2}-.5334544{col 26}{space 1} .4777112{col 38}  -1.12{col 46}{space 3}-1.890128{col 58}{space 3} .8232195
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-.7704885{col 26}{space 1} .4669165{col 38}  -1.65{col 46}{space 3}-2.096506{col 58}{space 3} .5555291
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2} 1.634944{col 26}{space 1} .4406071{col 38}   3.71{col 46}{space 3} .3836437{col 58}{space 3} 2.886244
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2}-.6269742{col 26}{space 1} .5349385{col 38}  -1.17{col 46}{space 3}-2.146171{col 58}{space 3} .8922222
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-1.066081{col 26}{space 1} .7313462{col 38}  -1.46{col 46}{space 3}-3.143065{col 58}{space 3} 1.010902
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2}-.1674787{col 26}{space 1} .8214368{col 38}  -0.20{col 46}{space 3}-2.500315{col 58}{space 3} 2.165357
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} 1.173221{col 26}{space 1} 1.021621{col 38}   1.15{col 46}{space 3}-1.728126{col 58}{space 3} 4.074569
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2} .4681478{col 26}{space 1} .7199338{col 38}   0.65{col 46}{space 3}-1.576425{col 58}{space 3} 2.512721
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} -.572201{col 26}{space 1} .6950374{col 38}  -0.82{col 46}{space 3} -2.54607{col 58}{space 3} 1.401668
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} .9074522{col 26}{space 1} .7257403{col 38}   1.25{col 46}{space 3}-1.153611{col 58}{space 3} 2.968516
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}-1.265413{col 26}{space 1} .7231824{col 38}  -1.75{col 46}{space 3}-3.319212{col 58}{space 3} .7883863
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} .1552355{col 26}{space 1} .5406382{col 38}   0.29{col 46}{space 3}-1.380148{col 58}{space 3} 1.690619
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} .4654661{col 26}{space 1} .8057032{col 38}   0.58{col 46}{space 3}-1.822687{col 58}{space 3}  2.75362
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2}-1.205456{col 26}{space 1} .8244417{col 38}  -1.46{col 46}{space 3}-3.546826{col 58}{space 3} 1.135913
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} -.413092{col 26}{space 1} .6275808{col 38}  -0.66{col 46}{space 3}-2.195387{col 58}{space 3} 1.369203
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2}-.4565224{col 26}{space 1} .9235688{col 38}  -0.49{col 46}{space 3}-3.079408{col 58}{space 3} 2.166363
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_accommodation_200k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(118,839 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,176}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 2.661217{col 26}{space 1} 1.547459{col 38}   1.72{col 46}{space 3}-1.676787{col 58}{space 3} 6.999221
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2}-.3493483{col 26}{space 1} 1.183839{col 38}  -0.30{col 46}{space 3}-3.668014{col 58}{space 3} 2.969317
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2} -1.13863{col 26}{space 1} .8848346{col 38}  -1.29{col 46}{space 3}-3.619094{col 58}{space 3} 1.341834
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} 1.394453{col 26}{space 1} .7791167{col 38}   1.79{col 46}{space 3}-.7896516{col 58}{space 3} 3.578557
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2}-.0712088{col 26}{space 1} .7407367{col 38}  -0.10{col 46}{space 3}-2.147722{col 58}{space 3} 2.005304
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-.7786886{col 26}{space 1} .9845667{col 38}  -0.79{col 46}{space 3}-3.538733{col 58}{space 3} 1.981355
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2}-.3813973{col 26}{space 1} .9527672{col 38}  -0.40{col 46}{space 3}-3.052297{col 58}{space 3} 2.289503
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} 1.449729{col 26}{space 1} .7849184{col 38}   1.85{col 46}{space 3}-.7506391{col 58}{space 3} 3.650098
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-.4625217{col 26}{space 1} .7527656{col 38}  -0.61{col 46}{space 3}-2.572756{col 58}{space 3} 1.647712
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2}-.0210121{col 26}{space 1} 1.244804{col 38}  -0.02{col 46}{space 3}-3.510581{col 58}{space 3} 3.468557
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2} .8078392{col 26}{space 1} 1.353298{col 38}   0.60{col 46}{space 3}-2.985873{col 58}{space 3} 4.601551
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-3.133208{col 26}{space 1} 1.602769{col 38}  -1.95{col 46}{space 3}-7.626264{col 58}{space 3} 1.359847
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2} 1.920313{col 26}{space 1} 1.278524{col 38}   1.50{col 46}{space 3}-1.663784{col 58}{space 3} 5.504411
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} .5443681{col 26}{space 1} 1.095058{col 38}   0.50{col 46}{space 3}-2.525417{col 58}{space 3} 3.614154
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-.6391464{col 26}{space 1} 1.530261{col 38}  -0.42{col 46}{space 3} -4.92894{col 58}{space 3} 3.650647
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2}  .730276{col 26}{space 1} 1.020654{col 38}   0.72{col 46}{space 3}-2.130931{col 58}{space 3} 3.591483
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2}-.9023878{col 26}{space 1} .7043081{col 38}  -1.28{col 46}{space 3}-2.876781{col 58}{space 3} 1.072005
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2} -.624422{col 26}{space 1} .5092703{col 38}  -1.23{col 46}{space 3}-2.052064{col 58}{space 3} .8032197
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2}-.5694895{col 26}{space 1} .8697289{col 38}  -0.65{col 46}{space 3}-3.007608{col 58}{space 3} 1.868629
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2}-.1304252{col 26}{space 1} .7505724{col 38}  -0.17{col 46}{space 3}-2.234511{col 58}{space 3} 1.973661
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2}-.5938277{col 26}{space 1} .8343993{col 38}  -0.71{col 46}{space 3}-2.932906{col 58}{space 3} 1.745251
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} 1.395892{col 26}{space 1} 1.381644{col 38}   1.01{col 46}{space 3}-2.477281{col 58}{space 3} 5.269065
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 1.518685{col 26}{space 1} .7767258{col 38}   1.96{col 46}{space 3}-.6587174{col 58}{space 3} 3.696086
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_retail_100k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(122,535 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:3,480}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2} 2.143925{col 26}{space 1} 1.610535{col 38}   1.33{col 46}{space 3}-2.468979{col 58}{space 3}  6.75683
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2}-.1567614{col 26}{space 1} 1.115705{col 38}  -0.14{col 46}{space 3} -3.35237{col 58}{space 3} 3.038848
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-.7608377{col 26}{space 1} 1.002623{col 38}  -0.76{col 46}{space 3}-3.632556{col 58}{space 3} 2.110881
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2} 1.735843{col 26}{space 1} 1.007657{col 38}   1.72{col 46}{space 3}-1.150296{col 58}{space 3} 4.621982
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2}-.0444356{col 26}{space 1} .6878963{col 38}  -0.06{col 46}{space 3}-2.014713{col 58}{space 3} 1.925842
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-1.435045{col 26}{space 1} 1.079058{col 38}  -1.33{col 46}{space 3}-4.525691{col 58}{space 3} 1.655602
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2}-.0628676{col 26}{space 1} .8716158{col 38}  -0.07{col 46}{space 3}-2.559356{col 58}{space 3}  2.43362
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2} 1.366054{col 26}{space 1} .9734416{col 38}   1.40{col 46}{space 3}-1.422084{col 58}{space 3} 4.154192
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-.4477768{col 26}{space 1} .5856535{col 38}  -0.76{col 46}{space 3} -2.12521{col 58}{space 3} 1.229656
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2}-.2352468{col 26}{space 1} 1.239888{col 38}  -0.19{col 46}{space 3}-3.786542{col 58}{space 3} 3.316048
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2} 1.363416{col 26}{space 1} 1.388767{col 38}   0.98{col 46}{space 3}  -2.6143{col 58}{space 3} 5.341133
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2}-3.388666{col 26}{space 1} 1.666111{col 38}  -2.03{col 46}{space 3}-8.160752{col 58}{space 3} 1.383421
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2}  2.01102{col 26}{space 1} .9391371{col 38}   2.14{col 46}{space 3}-.6788628{col 58}{space 3} 4.700903
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2} .1331808{col 26}{space 1} 1.027511{col 38}   0.13{col 46}{space 3}-2.809823{col 58}{space 3} 3.076185
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-.5675716{col 26}{space 1} 1.882381{col 38}  -0.30{col 46}{space 3}-5.959101{col 58}{space 3} 4.823958
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} .7031444{col 26}{space 1} 1.355212{col 38}   0.52{col 46}{space 3}-3.178464{col 58}{space 3} 4.584753
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2}-.9187583{col 26}{space 1} .8280097{col 38}  -1.11{col 46}{space 3}-3.290349{col 58}{space 3} 1.452833
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}-.8062427{col 26}{space 1} .5711636{col 38}  -1.41{col 46}{space 3}-2.442174{col 58}{space 3} .8296881
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2}-.7360337{col 26}{space 1} .8104426{col 38}  -0.91{col 46}{space 3}-3.057309{col 58}{space 3} 1.585242
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} .2846265{col 26}{space 1} .6233873{col 38}   0.46{col 46}{space 3}-1.500884{col 58}{space 3} 2.070137
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2}-.5817587{col 26}{space 1} .7201604{col 38}  -0.81{col 46}{space 3}-2.644447{col 58}{space 3}  1.48093
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} .9840053{col 26}{space 1} 1.255981{col 38}   0.78{col 46}{space 3}-2.613385{col 58}{space 3} 4.581395
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2} 1.529637{col 26}{space 1} .7714461{col 38}   1.98{col 46}{space 3}-.6799443{col 58}{space 3} 3.739219
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_retail_200k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(118,839 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,176}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2}-1.308996{col 26}{space 1} 2.012577{col 38}  -0.65{col 46}{space 3}-6.901839{col 58}{space 3} 4.283847
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2} 2.316511{col 26}{space 1} 1.703931{col 38}   1.36{col 46}{space 3}-2.418619{col 58}{space 3} 7.051642
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}  .416768{col 26}{space 1} 1.614554{col 38}   0.26{col 46}{space 3}-4.069991{col 58}{space 3} 4.903527
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2}-4.358477{col 26}{space 1} 1.614788{col 38}  -2.70{col 46}{space 3}-8.845884{col 58}{space 3} .1289302
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} .9550085{col 26}{space 1} 1.404781{col 38}   0.68{col 46}{space 3}-2.948801{col 58}{space 3} 4.858818
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2}-.7502873{col 26}{space 1} 1.495933{col 38}  -0.50{col 46}{space 3}-4.907402{col 58}{space 3} 3.406827
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2} 1.438232{col 26}{space 1} 1.385974{col 38}   1.04{col 46}{space 3}-2.413313{col 58}{space 3} 5.289778
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2}-1.691834{col 26}{space 1} 1.322398{col 38}  -1.28{col 46}{space 3}-5.366706{col 58}{space 3} 1.983037
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2}-.1412285{col 26}{space 1} 1.512964{col 38}  -0.09{col 46}{space 3}-4.345672{col 58}{space 3} 4.063215
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2} .3617463{col 26}{space 1} 2.335087{col 38}   0.15{col 46}{space 3}-6.127333{col 58}{space 3} 6.850826
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2}-2.245277{col 26}{space 1} 1.750867{col 38}  -1.28{col 46}{space 3}-7.110841{col 58}{space 3} 2.620287
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2} 4.314649{col 26}{space 1} 2.225187{col 38}   1.94{col 46}{space 3}-1.869025{col 58}{space 3} 10.49832
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2}-.8403531{col 26}{space 1} 1.170094{col 38}  -0.72{col 46}{space 3}-4.091981{col 58}{space 3} 2.411274
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2}-1.477545{col 26}{space 1} 1.878759{col 38}  -0.79{col 46}{space 3}-6.698512{col 58}{space 3} 3.743423
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-.5328558{col 26}{space 1} 1.448892{col 38}  -0.37{col 46}{space 3}-4.559248{col 58}{space 3} 3.493536
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2}  1.04706{col 26}{space 1} 1.768479{col 38}   0.59{col 46}{space 3}-3.867447{col 58}{space 3} 5.961567
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2} -3.53665{col 26}{space 1} 1.401916{col 38}  -2.52{col 46}{space 3}-7.432497{col 58}{space 3} .3591979
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2} -2.26733{col 26}{space 1} 1.409165{col 38}  -1.61{col 46}{space 3}-6.183322{col 58}{space 3} 1.648661
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2} .1701183{col 26}{space 1} 1.325938{col 38}   0.13{col 46}{space 3}-3.514591{col 58}{space 3} 3.854827
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} 1.130114{col 26}{space 1} 1.549227{col 38}   0.73{col 46}{space 3}-3.175104{col 58}{space 3} 5.435331
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2} .3617116{col 26}{space 1} 2.217157{col 38}   0.16{col 46}{space 3}-5.799646{col 58}{space 3} 6.523069
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2}-.3881283{col 26}{space 1} 1.839832{col 38}  -0.21{col 46}{space 3} -5.50092{col 58}{space 3} 4.724664
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2}-5.129465{col 26}{space 1} 2.209549{col 38}  -2.32{col 46}{space 3}-11.26968{col 58}{space 3}  1.01075
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_construction_100k.png{rm}
+saved as
+PNG
+format
+{p_end}
+.{res}......................{txt}(122,535 missing values generated)
+{res}
+{txt}Difference-in-difference with Multiple Time Periods
+
+{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:3,480}
+{txt}Outcome model  : {res:least squares}
+Treatment model: {res:inverse probability}
+(Std. err. adjusted for{res}       27{txt} clusters in {res}uf{txt})
+{res}{col 1}{text}{hline 12}{c TT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 13}{text}{c |} Coefficient{col 26}  Std. err.{col 38}     t{col 46}    [95% conf. interval]
+{res}{col 1}{text}{hline 12}{c +}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{col 1}{result}g18         {col 13}{text}{c |}
+{res}{col 1}{text}       t_1_2{col 13}{c |}{result}{space 2}-.9617003{col 26}{space 1} 1.570671{col 38}  -0.61{col 46}{space 3}-5.290389{col 58}{space 3} 3.366988
+{col 1}{text}       t_2_3{col 13}{c |}{result}{space 2} 1.783176{col 26}{space 1}  1.22153{col 38}   1.46{col 46}{space 3}-1.583297{col 58}{space 3} 5.149649
+{col 1}{text}       t_3_4{col 13}{c |}{result}{space 2}-.6889121{col 26}{space 1} 2.001923{col 38}  -0.34{col 46}{space 3}-6.206109{col 58}{space 3} 4.828285
+{col 1}{text}       t_4_5{col 13}{c |}{result}{space 2}-2.559881{col 26}{space 1} 1.297806{col 38}  -1.97{col 46}{space 3}-6.136568{col 58}{space 3} 1.016806
+{col 1}{text}       t_5_6{col 13}{c |}{result}{space 2} .7825353{col 26}{space 1} 1.387186{col 38}   0.56{col 46}{space 3}-3.040477{col 58}{space 3} 4.605548
+{col 1}{text}       t_6_7{col 13}{c |}{result}{space 2} 1.200957{col 26}{space 1} 2.170366{col 38}   0.55{col 46}{space 3}-4.780459{col 58}{space 3} 7.182374
+{col 1}{text}       t_7_8{col 13}{c |}{result}{space 2}-.2118684{col 26}{space 1} 1.573367{col 38}  -0.13{col 46}{space 3}-4.547987{col 58}{space 3}  4.12425
+{col 1}{text}       t_8_9{col 13}{c |}{result}{space 2}-1.371408{col 26}{space 1} 1.368717{col 38}  -1.00{col 46}{space 3}-5.143523{col 58}{space 3} 2.400706
+{col 1}{text}      t_9_10{col 13}{c |}{result}{space 2} .4532821{col 26}{space 1} 1.536166{col 38}   0.30{col 46}{space 3}-3.780311{col 58}{space 3} 4.686876
+{col 1}{text}     t_10_11{col 13}{c |}{result}{space 2} .6611412{col 26}{space 1} 2.545474{col 38}   0.26{col 46}{space 3}-6.354054{col 58}{space 3} 7.676336
+{col 1}{text}     t_11_12{col 13}{c |}{result}{space 2} -3.18707{col 26}{space 1} 1.464289{col 38}  -2.18{col 46}{space 3}-7.222575{col 58}{space 3} .8484344
+{col 1}{text}     t_12_13{col 13}{c |}{result}{space 2} 3.703942{col 26}{space 1} 2.514772{col 38}   1.47{col 46}{space 3} -3.22664{col 58}{space 3} 10.63452
+{col 1}{text}     t_13_14{col 13}{c |}{result}{space 2}-.4534444{col 26}{space 1} 1.059877{col 38}  -0.43{col 46}{space 3}-3.374411{col 58}{space 3} 2.467522
+{col 1}{text}     t_14_15{col 13}{c |}{result}{space 2}-.7184667{col 26}{space 1}  2.59546{col 38}  -0.28{col 46}{space 3} -7.87142{col 58}{space 3} 6.434487
+{col 1}{text}     t_15_16{col 13}{c |}{result}{space 2}-1.328492{col 26}{space 1} 1.441545{col 38}  -0.92{col 46}{space 3}-5.301317{col 58}{space 3} 2.644332
+{col 1}{text}     t_16_17{col 13}{c |}{result}{space 2} 1.257533{col 26}{space 1} 1.679601{col 38}   0.75{col 46}{space 3}-3.371362{col 58}{space 3} 5.886428
+{col 1}{text}     t_17_18{col 13}{c |}{result}{space 2}-3.129914{col 26}{space 1} 1.545448{col 38}  -2.03{col 46}{space 3} -7.38909{col 58}{space 3} 1.129262
+{col 1}{text}     t_17_19{col 13}{c |}{result}{space 2}-1.788574{col 26}{space 1} 1.509887{col 38}  -1.18{col 46}{space 3}-5.949745{col 58}{space 3} 2.372596
+{col 1}{text}     t_17_20{col 13}{c |}{result}{space 2}-.0377263{col 26}{space 1} 1.519932{col 38}  -0.02{col 46}{space 3}-4.226582{col 58}{space 3} 4.151129
+{col 1}{text}     t_17_21{col 13}{c |}{result}{space 2} 1.553332{col 26}{space 1} 1.749162{col 38}   0.89{col 46}{space 3}-3.267268{col 58}{space 3} 6.373931
+{col 1}{text}     t_17_22{col 13}{c |}{result}{space 2} .2271686{col 26}{space 1} 1.934859{col 38}   0.12{col 46}{space 3}-5.105204{col 58}{space 3} 5.559541
+{col 1}{text}     t_17_23{col 13}{c |}{result}{space 2} .1146505{col 26}{space 1}  1.99861{col 38}   0.06{col 46}{space 3}-5.393416{col 58}{space 3} 5.622718
+{col 1}{text}     t_17_24{col 13}{c |}{result}{space 2}-5.180633{col 26}{space 1}  2.81286{col 38}  -1.84{col 46}{space 3}-12.93273{col 58}{space 3} 2.571464
+{col 1}{text}{hline 12}{c BT}{hline 12}{hline 12}{hline 8}{hline 12}{hline 12}
+{res}Control: Never Treated
+
+See Callaway and Sant'Anna (2021) for details
+{txt}{p 0 4 2}
+file {bf}
+/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Plots/CAGED/Entropy/netjobs_construction_200k.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+{txt}end of do-file
+
+{com}. 
