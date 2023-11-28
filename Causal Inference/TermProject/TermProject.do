@@ -130,7 +130,6 @@ graph export "Plots/`v'.png", as(png) name("Graph")
 }
 
 
-
 * Monthly Data
 
 import delimited "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/Data/CagedData.csv", clear 
@@ -201,7 +200,7 @@ gen main=0
 replace main=1 if pop>100000
 
 gen treat = 0 
-replace treat = 18 if host==1
+replace treat = 1 if host==1
 
 gen gdppc = pibmunicipal/population
 
@@ -216,7 +215,7 @@ merge m:1 ibge_code using "Data/munic_data_monthly.dta"
 save "Data/WorldCupMonthly.dta", replace
 
 
-use "Data/WorldCupMonthly.dta", replace
+use "Data/WorldCupMonthly.dta", clear
 
 * Main results 
 global outcomes "netjobs net_wages net_hours net_tempjobs net_tempwages net_temphours avg_wage avg_wage_t"
@@ -263,3 +262,5 @@ graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
 
 }
 
+
+* 

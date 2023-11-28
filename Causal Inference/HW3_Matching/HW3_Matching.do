@@ -65,5 +65,5 @@ svy: reg re78 treat
 
 * 6. Do a classic dif in dif using the weighted data and compare results to the discussion in question 5.
 
- bysort treat: tabstat re78 [aweight=_webal] 
+ bysort treat: tabstat re75 [aweight=_webal] 
  bysort treat: tabstat re78 [aweight=_webal] 
