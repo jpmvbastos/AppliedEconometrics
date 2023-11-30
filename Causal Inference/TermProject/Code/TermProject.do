@@ -7,10 +7,6 @@ import delimited "Data/MainData.csv", clear
 gen treat = 0
 replace treat = 2014 if host==1
 
-egen avg_pop = mean(population), by(ibge_code)
-gen main=0
-replace main=1 if pop>100000
-
 encode sigla, gen(uf)
 
 gen gdppc = pibmunicipal/population
@@ -65,8 +61,39 @@ save "Data/WorldCupYearly.dta", replace
 
 use "Data/WorldCupYearly.dta", clear
 
-global outcomes "total transportation accommodation retail construction total_emp transportation_emp accommodation_emp retail_emp construction_emp"
-global controls "gdppc total_emp homiciderate uf transportation accommodation retail construction pop cand"
+
+gen p100k = 0 
+gen p200k = 0
+
+egen avg_pop = mean(population), by(ibge_code)
+
+replace p100k=1 if avg_pop > 100000
+replace p200k=1 if avg_pop > 200000
+
+foreach v in netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction {
+	
+	replace `v' = `v' / (population/10000)
+	
+}
+
+global outcomes "share_transportation_emp share_accommodation_emp share_retail_emp share_construction_emp"
+global outcomes "share_transportation share_transportation_emp share_accommodation share_accommodation_emp share_retail share_retail_emp share_construction share_construction_emp"
+global controls "gdppc"
+
+
+ebalance host gdppc $outcomes if p100k==1 & year==2013, ///
+generate(ebal100k) maxiter(50) target(1 2 2 2 2 2 1 2 2) tolerance(0.681)
+
+ebalance host gdppc $outcomes if p200k==1 & year==2014, ///
+generate(ebal200k) maxiter(50) target(2) 
+
+* extend ebalance weight constant for the whole 
+
+egen ebal100kc = total(ebal100k), by(ibge_code)
+egen ebal200kc = total(ebal200k), by(ibge_code)
+
+replace ebal100kc = . if ebal100kc == 0
+replace ebal200kc = . if ebal200kc == 0
 
 
 * Main results 
@@ -97,6 +124,25 @@ graph export "Plots/`v'_lags.png", as(png) name("Graph")
 
 
 * Results in Shares
+
+global outcomes "transportation accommodation retail construction"
+
+foreach v in $outcomes{ 
+	
+csdid share_`v' if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Share of firms in the `v' sector")
+	graph export "Plots/Entropy/share_`v'_100k.png", as(png) name("Graph") replace
+
+csdid share_`v'_emp if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Share of employees in `v' sector")
+	graph export "Plots/Entropy/share_`v'_emp_100k.png", as(png) name("Graph") replace
+}
 
 global shares "share_transportation share_transportation_emp share_accommodation share_accommodation_emp share_retail share_retail_emp share_construction share_construction_emp"
 global controls "gdppc homiciderate uf pop cand"
@@ -264,7 +310,6 @@ foreach v in netjobs netjobs_transportation netjobs_accommodation netjobs_retail
 
 global outcomes "netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction"
 
-
 ebalance host gdppc $outcomes if p100k==1 & period==201405, ///
 generate(ebal100k) maxiter(50) target(2 2 2 1 2 2) tolerance(0.76)
 
@@ -272,9 +317,8 @@ generate(ebal100k) maxiter(50) target(2 2 2 1 2 2) tolerance(0.76)
 svyset [pweight= ebal100k]
 eststo clear
 foreach v in gdppc $outcomes {
-	eststo: svy, subpop(if period == 201405 & p100k == 1 & ebal100k !=.) : regress `v' host
+	svy, subpop(if period == 201405 & p100k == 1 & ebal100k !=.) : regress `v' host
 }
-esttab using "Tables/ebal100k_pvals.tex"
 
 ebalance host gdppc $outcomes if p200k==1 & period==201405, ///
 generate(ebal200k) maxiter(50) target(2 2 2 1 2 2) tolerance(0.64)
@@ -286,13 +330,18 @@ foreach v in gdppc $outcomes {
 	svy, subpop(if period == 201405 & p100k == 1 & ebal100k !=.) : regress `v' host
 }  
 
+ebalance host gdppc $outcomes if p500k==1 & period==201405, ///
+generate(ebal500k) maxiter(50) target(1) 
+
 * extend ebalance weight constant for the whole 
 
 egen ebal100kc = total(ebal100k), by(ibge_code)
 egen ebal200kc = total(ebal200k), by(ibge_code)
+egen ebal500kc = total(ebal500k), by(ibge_code)
 
 replace ebal100kc = . if ebal100kc == 0
 replace ebal200kc = . if ebal200kc == 0
+replace ebal500kc = . if ebal500kc == 0
 
 log using "Logs/EntropyMonth_NetJobs.smcl"
 
@@ -300,7 +349,7 @@ log using "Logs/EntropyMonth_NetJobs.smcl"
 
 foreach v in $outcomes{ 
 
-csdid `v' gdppc if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(time) gvar(treat) ///
+csdid `v' if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(time) gvar(treat) ///
 		wboot reps(250) cluster(uf) rseed(1) reg
 
 csdid_plot, group(18) xtitle("Periods from World Cup") ///
@@ -309,7 +358,7 @@ csdid_plot, group(18) xtitle("Periods from World Cup") ///
 graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
 	
 
-csdid `v' gdppc if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
+csdid `v' if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
 		wboot reps(250) cluster(uf) rseed(1) reg
 
 csdid_plot, group(18) xtitle("Periods from World Cup") ///
@@ -319,7 +368,43 @@ graph export "Plots/CAGED/Entropy/`v'_200k.png", as(png) name("Graph") replace
 	
 }
 
+foreach v in $outcomes{ 
+
+csdid `v' if ebal500kc!=. [iweight=ebal500kc], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Jobs per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/`v'_500k.png", as(png) name("Graph") replace
+	
+}
+
 log close
+
+global hours = "net_hours net_hours_transportation net_hours_accommodation net_hours_retail net_hours_construction"
+
+foreach v in $hours {
+	
+	replace `v' = `v' / (population/10000)
+	
+}
+
+ebalance host $outcomes $hours $gdppc if p100k==1 & period==201405, ///
+generate(ebal100k) maxiter(50) target(1 2 2 2 2 1 2 2 2 2) 
+
+foreach v in $hours{ 
+
+csdid `v' if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Hired Hours per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
+	
+}
+
 
 
 /*
