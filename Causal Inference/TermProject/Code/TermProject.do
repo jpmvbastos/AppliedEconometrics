@@ -1,3 +1,13 @@
+* Packages
+
+net from http://personalpages.manchester.ac.uk/staff/mark.lunt
+pbalchk
+
+ssc install ebalance
+
+
+
+
 * Import
 
 cd "/Users/jpmvbastos/Documents/GitHub/AppliedEconometrics/Causal Inference/TermProject/"
@@ -223,11 +233,19 @@ foreach k in small large {
 	
 }
 
+foreach k in transportation accommodation retail construction {
+	
+		label var netjobs_`k' "Net change in jobs in sector `k', per 10,000 population"
+		label var net_hours_`k' "Net change in hired hours in sector `k', per 10,000 population"
+		}
+		
+
 
 foreach k in transportation accommodation retail construction {
+	
 		gen wage_`k' = th_wages_`k' / th_hours_`k'
 		label var wage_`k' "Average hourly rate in sector `k'"
-		
+			
 		}
 		
 gen avg_wage = net_wages / net_hours
@@ -291,44 +309,43 @@ use "Data/WorldCupMonthly.dta", clear
 drop if period==.
 
 gen p100k = 0 
-gen p150k = 0
 gen p200k = 0
 gen p250k = 0
 gen p500k = 0
 
 replace p100k=1 if avg_pop > 100000
-replace p150k=1 if avg_pop > 150000
 replace p200k=1 if avg_pop > 200000
 replace p250k=1 if avg_pop > 250000
 replace p500k=1 if avg_pop > 500000
 
-foreach v in netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction {
+global outcomes "netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction"
+global hours = "net_hours net_hours_transportation net_hours_accommodation net_hours_retail net_hours_construction"
+
+
+foreach v in $outcomes $outcomes {
 	
 	replace `v' = `v' / (population/10000)
 	
 }
 
-global outcomes "netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction"
+ebalance host $outcomes $hours gdppc if p100k==1 & period==201405, ///
+generate(ebal100k) maxiter(50) target(1 2 2 2 2 1 2 2 2 2 2) 
 
-ebalance host gdppc $outcomes if p100k==1 & period==201405, ///
-generate(ebal100k) maxiter(50) target(2 2 2 1 2 2) tolerance(0.76)
-
-* Check if there are differences in means
-svyset [pweight= ebal100k]
-eststo clear
-foreach v in gdppc $outcomes {
-	svy, subpop(if period == 201405 & p100k == 1 & ebal100k !=.) : regress `v' host
+foreach v in gdppc $outcomes $hours {
+	label var `v' ""
 }
 
-ebalance host gdppc $outcomes if p200k==1 & period==201405, ///
-generate(ebal200k) maxiter(50) target(2 2 2 1 2 2) tolerance(0.64)
+pbalchk host gdppc $outcomes $hours if period==201405 & p100k==1, wt(ebal100k) p graph
 
-* Check if there are differences in means
-svyset [pweight= ebal200k]
-eststo clear
-foreach v in gdppc $outcomes {
-	svy, subpop(if period == 201405 & p100k == 1 & ebal100k !=.) : regress `v' host
-}  
+graph export "Plots/CAGED/Entropy/Balance_100k.png"
+
+* Table for Sum Stats
+
+bysort host: sum gdppc $outcomes $hours if period==201405 & p100k==1 [aweight=ebal100k]
+
+
+ebalance host $outcomes $hours gdppc if p100k==1 & period==201405, ///
+generate(ebal200k) maxiter(50) target(2) 
 
 ebalance host gdppc $outcomes if p500k==1 & period==201405, ///
 generate(ebal500k) maxiter(50) target(1) 
@@ -343,7 +360,7 @@ replace ebal100kc = . if ebal100kc == 0
 replace ebal200kc = . if ebal200kc == 0
 replace ebal500kc = . if ebal500kc == 0
 
-log using "Logs/EntropyMonth_NetJobs.smcl"
+log using "Logs/EntropyMonth_NetJobsHours_100k.smcl", replace
 
 * Main Results
 
@@ -358,40 +375,15 @@ csdid_plot, group(18) xtitle("Periods from World Cup") ///
 graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
 	
 
-csdid `v' if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
+/*csdid `v' if ebal200kc!=. [iweight=ebal200kc], ivar(ibge_code) time(time) gvar(treat) ///
 		wboot reps(250) cluster(uf) rseed(1) reg
 
 csdid_plot, group(18) xtitle("Periods from World Cup") ///
 	ytitle("ATT: Net Change in Jobs per 10,000 people")
 	
 graph export "Plots/CAGED/Entropy/`v'_200k.png", as(png) name("Graph") replace
-	
+*/	
 }
-
-foreach v in $outcomes{ 
-
-csdid `v' if ebal500kc!=. [iweight=ebal500kc], ivar(ibge_code) time(time) gvar(treat) ///
-		wboot reps(250) cluster(uf) rseed(1) reg
-
-csdid_plot, group(18) xtitle("Periods from World Cup") ///
-	ytitle("ATT: Net Change in Jobs per 10,000 people")
-	
-graph export "Plots/CAGED/Entropy/`v'_500k.png", as(png) name("Graph") replace
-	
-}
-
-log close
-
-global hours = "net_hours net_hours_transportation net_hours_accommodation net_hours_retail net_hours_construction"
-
-foreach v in $hours {
-	
-	replace `v' = `v' / (population/10000)
-	
-}
-
-ebalance host $outcomes $hours $gdppc if p100k==1 & period==201405, ///
-generate(ebal100k) maxiter(50) target(1 2 2 2 2 1 2 2 2 2) 
 
 foreach v in $hours{ 
 
@@ -405,34 +397,18 @@ graph export "Plots/CAGED/Entropy/`v'_100k.png", as(png) name("Graph") replace
 	
 }
 
-
-
+log close
 /*
-global sectors "hired_accommodation temp_hired_accommodation th_wages_accommodation th_hours_accommodation netjobs_accommodation net_hours_accommodation hired_retail temp_hired_retail th_wages_retail th_hours_retail netjobs_retail net_wages_retail net_hours_retail hired_transportation temp_hired_transportation th_wages_transportation th_hours_transportation netjobs_transportation net_wages_transportation net_hours_transportation hired_construction temp_hired_construction th_wages_construction th_hours_construction netjobs_construction net_wages_construction net_hours_construction"
+foreach v in $outcomes{ 
 
-global controls "gdppc pop uf"
- 
+csdid `v' if ebal500kc!=. [iweight=ebal500kc], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
 
-foreach v in  $sectors {
-
-csdid `v' `v' $controls if main==1, ivar(ibge_code) time(time) gvar(treat) ///
-		wboot reps(250) cluster(uf) rseed(1)
-csdid_plot, group(18)
-
-graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
-
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Jobs per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/`v'_500k.png", as(png) name("Graph") replace
+	
 }
+*/
 
-global wage_sector "wage_transportation wage_accommodation wage_retail wage_construction"
-
-foreach v in  $wage_sector {
-
-csdid `v' `v' $controls if main==1, ivar(ibge_code) time(time) gvar(treat) ///
-		wboot reps(250) cluster(uf) rseed(1)
-csdid_plot, group(18)
-
-graph export "Plots/CAGED/Sectors/`v'.png", as(png) name("Graph") replace
-
-}
-
-*/ 
