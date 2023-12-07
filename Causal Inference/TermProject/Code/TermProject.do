@@ -80,29 +80,78 @@ egen avg_pop = mean(population), by(ibge_code)
 replace p100k=1 if avg_pop > 100000
 replace p200k=1 if avg_pop > 200000
 
-foreach v in netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction {
+foreach v in total total_emp transportation accommodation retail construction transportation_emp accommodation_emp construction_emp retail_emp  {
 	
 	replace `v' = `v' / (population/10000)
 	
 }
 
-global outcomes "share_transportation_emp share_accommodation_emp share_retail_emp share_construction_emp"
-global outcomes "share_transportation share_transportation_emp share_accommodation share_accommodation_emp share_retail share_retail_emp share_construction share_construction_emp"
+global  outcomes "total total_emp transportation accommodation retail construction transportation_emp accommodation_emp construction_emp retail_emp"
+global shares "share_transportation_emp share_accommodation_emp share_retail_emp share_construction_emp"
 global controls "gdppc"
 
 
-ebalance host gdppc $outcomes if p100k==1 & year==2013, ///
-generate(ebal100k) maxiter(50) target(1 2 2 2 2 2 1 2 2) tolerance(0.681)
+ebalance host $outcomes $controls , ///
+generate(ebal100k) maxiter(50) target(2 1 2 2 2 2 1 1 2 1 2) tolerance(0.2614)
+
+pbalchk host $outcomes $controls if p100k==1 & year==2013, wt(ebal100k)
+
+* Table for Sum Stats
+
+bysort host: sum $outcomes $controls if p100k==1 & year==2013 [aweight=ebal100k]
+
+egen ebal100kc = total(ebal100k), by(ibge_code)
+replace ebal100kc = . if ebal100kc == 0
+
+
+* TOTAL FIRMS 
+
+csdid total if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Firms (all sectors) per 10,000 people")
+	
+graph export "Plots/Entropy/RAIS/total_firms_100k.png", as(png) name("Graph") replace
+
+* TOTAL EMP
+
+csdid total_emp if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Employees (all sectors) per 10,000 people")
+	
+graph export "Plots/Entropy/RAIS/total_emp_100k.png", as(png) name("Graph") replace
+
+
+foreach v in transportation accommodation retail construction { 
+
+csdid `v' if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Firms in `v' sector per 10,000 people")
+	
+graph export "Plots/Entropy/RAIS/`v'_firms_100k.png", as(png) name("Graph") replace
+
+csdid `v'_emp if ebal100kc!=. [iweight=ebal100kc], ivar(ibge_code) time(year) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(2014) xtitle("Years from World Cup") ///
+	ytitle("ATT: Employees in `v' sector per 10,000 people")
+	
+graph export "Plots/Entropy/RAIS/`v'_emp_100k.png", as(png) name("Graph") replace
+
+}
 
 ebalance host gdppc $outcomes if p200k==1 & year==2014, ///
 generate(ebal200k) maxiter(50) target(2) 
 
 * extend ebalance weight constant for the whole 
 
-egen ebal100kc = total(ebal100k), by(ibge_code)
-egen ebal200kc = total(ebal200k), by(ibge_code)
 
-replace ebal100kc = . if ebal100kc == 0
+egen ebal200kc = total(ebal200k), by(ibge_code)
 replace ebal200kc = . if ebal200kc == 0
 
 
