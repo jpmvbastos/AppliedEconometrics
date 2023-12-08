@@ -359,23 +359,15 @@ drop if period==.
 
 gen p100k = 0 
 gen p200k = 0
-gen p250k = 0
 gen p500k = 0
 
 replace p100k=1 if avg_pop > 100000
 replace p200k=1 if avg_pop > 200000
-replace p250k=1 if avg_pop > 250000
 replace p500k=1 if avg_pop > 500000
 
 global outcomes "netjobs netjobs_transportation netjobs_accommodation netjobs_retail netjobs_construction"
+
 global hours = "net_hours net_hours_transportation net_hours_accommodation net_hours_retail net_hours_construction"
-
-
-foreach v in $outcomes $outcomes {
-	
-	replace `v' = `v' / (population/10000)
-	
-}
 
 ebalance host $outcomes $hours gdppc if p100k==1 & period==201405, ///
 generate(ebal100k) maxiter(50) target(1 2 2 2 2 1 2 2 2 2 2) 
@@ -460,4 +452,33 @@ graph export "Plots/CAGED/Entropy/`v'_500k.png", as(png) name("Graph") replace
 	
 }
 */
+
+****** ADDITIONAL RESULTS ********
+
+foreach v in  transportation accommodation retail construction {
+	
+	gen net_tempjobs_`v' = ( temp_hired_`v' - temp_fired_`v') / (population/10000)
+}
+
+global temp "net_tempjobs_transportation net_tempjobs_accommodation net_tempjobs_retail net_tempjobs_construction"
+
+ebalance host $temp gdppc if p100k==1 & period==201405, ///
+generate(ebal100k_temp) maxiter(50) target(2) 
+
+egen ebal100kct = total(ebal100k_temp), by(ibge_code)
+replace ebal100kct = . if ebal100kct == 0
+
+foreach v in transportation accommodation retail construction { 
+
+csdid net_tempjobs_`v' if ebal100kct!=. [iweight=ebal100kct], ivar(ibge_code) time(time) gvar(treat) ///
+		wboot reps(250) cluster(uf) rseed(1) reg
+
+csdid_plot, group(18) xtitle("Periods from World Cup") ///
+	ytitle("ATT: Net Change in Temporary Jobs per 10,000 people")
+	
+graph export "Plots/CAGED/Entropy/temp_`v'_100k.png", as(png) name("Graph") replace
+}
+
+
+
 
